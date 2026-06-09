@@ -1,0 +1,16 @@
+{
+  "name": "municipalidad/regis-practicantes",
+  "description": "Control de asistencia de practicantes",
+  "type": "project",
+  "require": {
+    "php": ">=8.1",
+    "vlucas/phpdotenv": "^5.6",
+    "mpdf/mpdf": "^8.2",
+    "phpoffice/phpspreadsheet": "^2.2",
+    "endroid/qr-code": "^5.0"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}
