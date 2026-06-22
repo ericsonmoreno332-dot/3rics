@@ -15,7 +15,15 @@ function redirect(string $url): never
 
 function app_url(string $path = ''): string
 {
-    $base = rtrim(env_string('APP_URL', ''), '/');
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? null;
+    
+    if ($host) {
+        $base = $protocol . '://' . $host;
+    } else {
+        $base = rtrim(env_string('APP_URL', 'http://localhost:8000'), '/');
+    }
+    
     $path = ltrim($path, '/');
     return $path === '' ? $base : $base . '/' . $path;
 }

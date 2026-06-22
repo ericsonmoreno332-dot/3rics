@@ -64,7 +64,7 @@ ob_start();
 ?>
 
 <!-- ═══ METRICAS TOP ═══════════════════════════════════════ -->
-<div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 mb-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 mb-6">
     <!-- Total practicantes -->
     <div class="ui-panel rounded-2xl p-4 sm:p-5 ui-animate-entry delay-100 group hover:shadow-md transition-shadow">
         <div class="flex items-center gap-3 mb-3">
@@ -152,7 +152,7 @@ ob_start();
 <!-- ═══ ACCESOS RÁPIDOS ════════════════════════════════════ -->
 <div class="mb-6 ui-animate-entry delay-200">
     <h2 class="font-display text-lg font-bold text-slate-800 dark:text-slate-200 mb-4">Accesos rápidos</h2>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <?php
         $accesos = [
             ['Asistencia', 'Registrar ingreso de practicantes', 'asistencia', 'Registrar', '#284b63', '#3c6e71', '📋'],

@@ -46,17 +46,17 @@ ob_start();
 <!-- ══ TOP PROFILE BANNER ════════════════════════════════════════════════════ -->
 <div class="rounded-2xl overflow-hidden mb-6 shadow-sky"
      style="background: linear-gradient(135deg, #353535 0%, #284b63 60%, #3c6e71 100%);">
-    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 px-6 py-6">
-        <div class="shrink-0 h-20 w-20 rounded-2xl flex items-center justify-center text-3xl font-bold text-white shadow-md"
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 px-4 sm:px-6 py-5 sm:py-6">
+        <div class="shrink-0 h-16 w-16 sm:h-20 sm:w-20 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl font-bold text-white shadow-md"
              style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);">
             <?= mb_strtoupper(mb_substr($p['nombres'], 0, 1)) ?>
         </div>
-        <div class="flex-1 min-w-0">
-            <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-0.5">Practicante</p>
-            <h2 class="text-2xl font-bold text-white leading-tight">
+        <div class="flex-1 min-w-0 w-full">
+            <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-white/60 mb-0.5">Practicante</p>
+            <h2 class="text-xl sm:text-2xl font-bold text-white leading-tight break-words">
                 <?= e(nombre_completo($p['nombres'], $p['apellidos'])) ?>
             </h2>
-            <div class="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-sm text-white/80">
+            <div class="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs sm:text-sm text-white/80">
                 <span class="font-mono">DNI <?= e($p['dni']) ?></span>
                 <?php if ($p['carrera'] ?? ''): ?><span>· <?= e($p['carrera']) ?></span><?php endif; ?>
                 <?php if ($p['area_nombre'] ?? ''): ?><span>· <?= e($p['area_nombre']) ?></span><?php endif; ?>
@@ -78,21 +78,21 @@ ob_start();
     </div>
     <!-- Mini stat strip -->
     <div class="grid grid-cols-3 divide-x divide-white/10" style="background:rgba(0,0,0,0.2);">
-        <div class="px-5 py-3 text-center">
-            <p class="text-xl font-bold text-white"><?= $dias_asist ?></p>
-            <p class="text-xs text-white/60 mt-0.5">Días asistidos</p>
+        <div class="px-2 sm:px-5 py-3 text-center">
+            <p class="text-lg sm:text-xl font-bold text-white"><?= $dias_asist ?></p>
+            <p class="text-[10px] sm:text-xs text-white/60 mt-0.5 leading-tight">Días asistidos</p>
         </div>
-        <div class="px-5 py-3 text-center">
-            <p class="text-xl font-bold text-white"><?= number_format($total_horas, 1) ?></p>
-            <p class="text-xs text-white/60 mt-0.5">Horas registradas</p>
+        <div class="px-2 sm:px-5 py-3 text-center">
+            <p class="text-lg sm:text-xl font-bold text-white"><?= number_format($total_horas, 1) ?></p>
+            <p class="text-[10px] sm:text-xs text-white/60 mt-0.5 leading-tight">Horas registradas</p>
         </div>
-        <div class="px-5 py-3 text-center">
+        <div class="px-2 sm:px-5 py-3 text-center">
             <?php
-                if ($cerrada)      { echo '<p class="text-xl font-bold text-white">✅</p>'; }
-                elseif ($abierta)  { echo '<p class="text-xl font-bold text-white">🟡</p>'; }
-                else               { echo '<p class="text-xl font-bold text-white text-white/40">—</p>'; }
+                if ($cerrada)      { echo '<p class="text-lg sm:text-xl font-bold text-white">✅</p>'; }
+                elseif ($abierta)  { echo '<p class="text-lg sm:text-xl font-bold text-white">🟡</p>'; }
+                else               { echo '<p class="text-lg sm:text-xl font-bold text-white text-white/40">—</p>'; }
             ?>
-            <p class="text-xs text-white/60 mt-0.5">Hoy</p>
+            <p class="text-[10px] sm:text-xs text-white/60 mt-0.5 leading-tight">Hoy</p>
         </div>
     </div>
 </div>

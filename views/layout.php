@@ -99,7 +99,6 @@ $dark = $_COOKIE['theme'] ?? 'light';
 
         /* ─── Sidebar ───────────────────────────────────── */
         .ui-aside  {
-          @apply hidden lg:flex w-64 flex-col shrink-0 h-full;
           background: linear-gradient(170deg, #353535 0%, #284b63 45%, #353535 100%);
           border-right: 3px solid #3c6e71;
         }
@@ -183,7 +182,7 @@ $dark = $_COOKIE['theme'] ?? 'light';
         .ui-theme-toggle:hover { background: #284b6322; }
 
         /* ─── Main content ──────────────────────────────── */
-        .ui-main { @apply flex-1 p-4 lg:p-8 overflow-y-auto; }
+        .ui-main { @apply flex-1 p-4 lg:p-8 overflow-y-auto overflow-x-hidden; }
         .ui-main-col { @apply flex-1 flex flex-col min-w-0 h-full overflow-hidden; }
 
         /* ─── Flash messages ────────────────────────────── */
@@ -344,7 +343,7 @@ $dark = $_COOKIE['theme'] ?? 'light';
         .ui-text-success    { @apply text-sm font-medium text-pisco-green; }
 
         /* ─── Mobile overlay ────────────────────────────── */
-        .ui-mobile-overlay  { @apply fixed inset-0 z-40 hidden lg:hidden; }
+        .ui-mobile-overlay  { z-index: 40; }
         .ui-mobile-backdrop { @apply absolute inset-0 bg-black/60 backdrop-blur-sm; }
         .ui-mobile-sheet    {
           @apply absolute left-0 top-0 h-full w-72 p-5 overflow-y-auto;
@@ -360,9 +359,9 @@ $dark = $_COOKIE['theme'] ?? 'light';
 <body class="ui-body">
 <div class="ui-shell">
 
-    <?php if ($user): ?>
+    <?php if ($user && !is_practicante_user($user)): ?>
     <!-- ═══ SIDEBAR ════════════════════════════════════════ -->
-    <aside class="ui-aside">
+    <aside class="ui-aside hidden lg:flex w-64 flex-col shrink-0 h-full">
         <!-- Brand -->
         <div class="ui-aside-brand">
             <div class="ui-logo-sm">
@@ -424,7 +423,19 @@ $dark = $_COOKIE['theme'] ?? 'light';
             <div class="ui-header-inner">
                 <div class="flex items-center gap-3">
                     <?php if ($user): ?>
-                    <button type="button" class="ui-menu-btn" id="openSidebar" aria-label="Menú">☰</button>
+                        <?php if (!is_practicante_user($user)): ?>
+                        <button type="button" class="ui-menu-btn" id="openSidebar" aria-label="Menú">☰</button>
+                        <?php else: ?>
+                        <?php if (($_GET['r'] ?? '') === 'mi_qr'): ?>
+                        <a href="<?= e(app_url('index.php?r=mi_panel')) ?>" class="inline-flex items-center justify-center h-9 px-3 rounded-lg bg-[#284b63]/10 text-[#284b63] dark:text-[#3c6e71] hover:bg-[#284b63]/20 transition-colors text-sm font-semibold" title="Volver a Mi Panel">
+                            ⬅ Volver
+                        </a>
+                        <?php else: ?>
+                        <a href="<?= e(app_url('index.php?r=logout')) ?>" class="inline-flex items-center justify-center h-9 px-3 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20 transition-colors text-sm font-semibold" title="Cerrar sesión">
+                            ⬅ Salir
+                        </a>
+                        <?php endif; ?>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <h1 class="ui-page-title"><?= e($title ?? '') ?></h1>
                 </div>
@@ -487,8 +498,8 @@ $dark = $_COOKIE['theme'] ?? 'light';
 </div>
 
 <!-- ═══ MENÚ MOBILE ════════════════════════════════════════ -->
-<?php if ($user): ?>
-<div id="mobileNav" class="ui-mobile-overlay">
+<?php if ($user && !is_practicante_user($user)): ?>
+<div id="mobileNav" class="ui-mobile-overlay fixed inset-0 lg:hidden hidden">
     <div class="ui-mobile-backdrop" data-close-sidebar></div>
     <div class="ui-mobile-sheet">
         <div class="flex items-center gap-3 mb-5 pb-4" style="border-bottom:1px solid rgba(119,172,162,0.35)">
