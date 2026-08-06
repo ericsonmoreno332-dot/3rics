@@ -23,19 +23,19 @@ $dark = $_COOKIE['theme'] ?? 'light';
           extend: {
             colors: {
               pisco: {
-                dark:    '#353535',
-                teal:    '#284b63',
-                accent:  '#3c6e71',
-                light:   '#d9d9d9',
+                dark:    '#26263A',
+                teal:    '#26263A',
+                accent:  '#7A7AA3',
+                light:   '#DCDCEC',
                 // Keep compatibility names mapped to the new palette for safety/harmonization
-                sky:     '#284b63',
-                skylt:   '#d9d9d9',
-                gold:    '#3c6e71',
-                goldlt:  '#d9d9d9',
-                green:   '#284b63',
-                greenlt: '#d9d9d9',
-                earth:   '#353535',
-                sun:     '#3c6e71',
+                sky:     '#26263A',
+                skylt:   '#DCDCEC',
+                gold:    '#7A7AA3',
+                goldlt:  '#DCDCEC',
+                green:   '#26263A',
+                greenlt: '#DCDCEC',
+                earth:   '#26263A',
+                sun:     '#7A7AA3',
               }
             },
             fontFamily: {
@@ -94,13 +94,13 @@ $dark = $_COOKIE['theme'] ?? 'light';
         .ui-hover-lift { @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg; }
 
         /* ─── Shell ─────────────────────────────────────── */
-        .ui-body   { @apply h-screen bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 antialiased overflow-hidden; }
+        .ui-body   { @apply h-screen bg-[#F7F7FB] dark:bg-[#1a172a] text-slate-800 dark:text-[#e8e5f0] antialiased overflow-hidden; }
         .ui-shell  { @apply flex h-screen overflow-hidden; }
 
         /* ─── Sidebar ───────────────────────────────────── */
         .ui-aside  {
-          background: linear-gradient(170deg, #353535 0%, #284b63 45%, #353535 100%);
-          border-right: 3px solid #3c6e71;
+          background: linear-gradient(170deg, #26263A 0%, #26263A 45%, #26263A 100%);
+          border-right: 3px solid #7A7AA3;
         }
         .ui-aside-brand {
           @apply p-5 flex items-center gap-3;
@@ -109,7 +109,7 @@ $dark = $_COOKIE['theme'] ?? 'light';
         }
         .ui-logo-sm {
           @apply h-12 w-12 rounded-full flex items-center justify-center shrink-0 overflow-hidden;
-          border: 2px solid #3c6e71;
+          border: 2px solid #7A7AA3;
           background: #fff;
           box-shadow: 0 0 10px rgba(119, 172, 162, 0.4);
         }
@@ -128,7 +128,7 @@ $dark = $_COOKIE['theme'] ?? 'light';
         }
         .ui-nav-link-active {
           @apply text-slate-900 font-semibold shadow-md;
-          background: linear-gradient(90deg, #3c6e71, #d9d9d9) !important;
+          background: linear-gradient(90deg, #7A7AA3, #DCDCEC) !important;
         }
         .ui-nav-icon { @apply text-base w-5 text-center; }
 
@@ -140,7 +140,7 @@ $dark = $_COOKIE['theme'] ?? 'light';
         }
         .ui-aside-user-avatar {
           @apply h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0;
-          background: linear-gradient(135deg, #3c6e71, #284b63);
+          background: linear-gradient(135deg, #7A7AA3, #26263A);
           color: #fff;
         }
         .ui-aside-user-name { @apply font-semibold text-white text-sm; }
@@ -152,11 +152,11 @@ $dark = $_COOKIE['theme'] ?? 'light';
         /* ─── Header ────────────────────────────────────── */
         .ui-header {
           @apply sticky top-0 z-10 backdrop-blur-md;
-          border-bottom: 2px solid #3c6e71;
+          border-bottom: 2px solid #7A7AA3;
           background: linear-gradient(90deg, rgba(255,255,255,0.8) 0%, rgba(157,190,187,0.15) 100%);
         }
         .dark .ui-header {
-          background: linear-gradient(90deg, rgba(15,23,42,0.8) 0%, rgba(3,25,38,0.8) 100%);
+          background: linear-gradient(90deg, rgba(28,24,39,0.9) 0%, rgba(42,36,58,0.85) 100%);
         }
         .ui-header-inner  { @apply flex items-center justify-between px-4 py-3 lg:px-8; }
         .ui-menu-btn      { @apply lg:hidden p-2 rounded-lg text-pisco-sky hover:bg-pisco-skylt/30; }
@@ -164,22 +164,22 @@ $dark = $_COOKIE['theme'] ?? 'light';
 
         /* Breadcrumb stripe */
         .ui-breadcrumb {
-          @apply px-4 lg:px-8 py-1.5 text-xs text-slate-500 dark:text-slate-400;
+          @apply px-4 lg:px-8 py-1.5 text-xs text-slate-500 dark:text-stone-400;
           border-bottom: 1px solid #e2e8f0;
           background: #f8fafc;
         }
         .dark .ui-breadcrumb {
-          border-bottom-color: #1e293b;
-          background: #0f172a;
+          border-bottom-color: #2e2842;
+          background: #1c1827;
         }
 
         /* Theme toggle */
         .ui-theme-toggle {
           @apply rounded-full border px-3 py-1.5 text-xs font-medium transition-all;
-          border-color: #284b63;
-          color: #284b63;
+          border-color: #26263A;
+          color: #26263A;
         }
-        .ui-theme-toggle:hover { background: #284b6322; }
+        .ui-theme-toggle:hover { background: #26263A22; }
 
         /* ─── Main content ──────────────────────────────── */
         .ui-main { @apply flex-1 p-4 lg:p-8 overflow-y-auto overflow-x-hidden; }
@@ -198,17 +198,17 @@ $dark = $_COOKIE['theme'] ?? 'light';
         /* ─── Login ─────────────────────────────────────── */
         .ui-login-wrap {
           @apply min-h-screen flex items-center justify-center p-4;
-          background: linear-gradient(135deg, #353535 0%, #284b63 50%, #353535 100%);
+          background: linear-gradient(135deg, #26263A 0%, #26263A 50%, #26263A 100%);
         }
         .ui-login-card {
           @apply w-full max-w-md rounded-2xl p-8;
           background: #fff;
-          border-top: 4px solid #3c6e71;
+          border-top: 4px solid #7A7AA3;
           box-shadow: 0 20px 60px rgba(0,0,0,0.25);
         }
         .ui-logo-lg {
           @apply h-20 w-20 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden;
-          border: 3px solid #3c6e71;
+          border: 3px solid #7A7AA3;
           background: #fff;
           box-shadow: 0 4px 20px rgba(119,172,162,0.35);
         }
@@ -217,74 +217,74 @@ $dark = $_COOKIE['theme'] ?? 'light';
         .ui-subtitle-center { @apply text-center text-slate-500 text-sm mb-6; }
         .ui-btn-login {
           @apply w-full rounded-xl font-semibold py-3 text-sm transition-all duration-200 text-white;
-          background: linear-gradient(90deg, #353535, #284b63);
-          border-bottom: 3px solid #3c6e71;
+          background: linear-gradient(90deg, #26263A, #26263A);
+          border-bottom: 3px solid #7A7AA3;
         }
         .ui-btn-login:hover { filter: brightness(1.08); }
         .ui-login-footer { @apply mt-4 text-center text-xs text-slate-400; }
 
         /* ─── Formularios ───────────────────────────────── */
-        .ui-label        { @apply block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-300; }
-        .ui-label-plain  { @apply text-sm text-slate-600 dark:text-slate-400; }
+        .ui-label        { @apply block text-sm font-semibold mb-1 text-slate-700 dark:text-stone-300; }
+        .ui-label-plain  { @apply text-sm text-slate-600 dark:text-stone-400; }
         .ui-label-filter { @apply text-xs font-semibold text-slate-500 uppercase tracking-wide; }
         .ui-field {
-          @apply w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm
+          @apply w-full rounded-xl border border-slate-300 dark:border-[#2e2842] bg-white dark:bg-[#1e1b2e] px-3 py-2 text-sm
                  focus:outline-none focus:border-pisco-sky focus:ring-2 focus:ring-pisco-sky/20 transition;
         }
-        .ui-field-mt    { @apply mt-1 w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:border-pisco-sky focus:ring-2 focus:ring-pisco-sky/20 transition; }
-        .ui-field-focus { @apply mt-1 w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm focus:outline-none focus:border-pisco-sky focus:ring-2 focus:ring-pisco-sky/20 transition; }
-        .ui-field-mono  { @apply w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-mono focus:outline-none focus:border-pisco-sky; }
-        .ui-field-mt-mono { @apply mt-1 w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-mono; }
-        .ui-field-grow  { @apply flex-1 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm; }
-        .ui-field-search { @apply flex-1 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm; }
+        .ui-field-mt    { @apply mt-1 w-full rounded-xl border border-slate-300 dark:border-[#2e2842] bg-white dark:bg-[#1e1b2e] px-3 py-2 text-sm focus:outline-none focus:border-pisco-sky focus:ring-2 focus:ring-pisco-sky/20 transition; }
+        .ui-field-focus { @apply mt-1 w-full rounded-xl border border-slate-300 dark:border-[#2e2842] bg-white dark:bg-[#1e1b2e] px-3 py-2 text-sm focus:outline-none focus:border-pisco-sky focus:ring-2 focus:ring-pisco-sky/20 transition; }
+        .ui-field-mono  { @apply w-full rounded-xl border border-slate-300 dark:border-[#2e2842] bg-white dark:bg-[#1e1b2e] px-3 py-2 text-sm font-mono focus:outline-none focus:border-pisco-sky; }
+        .ui-field-mt-mono { @apply mt-1 w-full rounded-xl border border-slate-300 dark:border-[#2e2842] bg-white dark:bg-[#1e1b2e] px-3 py-2 text-sm font-mono; }
+        .ui-field-grow  { @apply flex-1 rounded-xl border border-slate-300 dark:border-[#2e2842] bg-white dark:bg-[#1e1b2e] px-3 py-2 text-sm; }
+        .ui-field-search { @apply flex-1 rounded-xl border border-slate-300 dark:border-[#2e2842] bg-white dark:bg-[#1e1b2e] px-3 py-2 text-sm; }
         .ui-required    { @apply text-red-500; }
         .ui-hint        { @apply text-slate-400 font-normal text-xs; }
 
         /* ─── Botones ───────────────────────────────────── */
         .ui-btn-primary {
           @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white transition-all duration-150 active:scale-95;
-          background: linear-gradient(90deg, #353535, #284b63);
-          border-bottom: 2px solid #3c6e71;
+          background: linear-gradient(90deg, #26263A, #26263A);
+          border-bottom: 2px solid #7A7AA3;
         }
         .ui-btn-primary:hover { filter: brightness(1.1); }
-        .ui-btn-primary-soft  { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-white; background: #284b63; }
-        .ui-btn-primary-wide  { @apply inline-flex items-center gap-2 rounded-xl px-5 py-2 text-sm font-semibold text-white; background: linear-gradient(90deg, #353535, #284b63); border-bottom: 2px solid #3c6e71; }
+        .ui-btn-primary-soft  { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-white; background: #26263A; }
+        .ui-btn-primary-wide  { @apply inline-flex items-center gap-2 rounded-xl px-5 py-2 text-sm font-semibold text-white; background: linear-gradient(90deg, #26263A, #26263A); border-bottom: 2px solid #7A7AA3; }
         .ui-btn-outline       { @apply inline-flex items-center gap-2 rounded-xl border border-pisco-sky px-4 py-2 text-sm font-medium text-pisco-sky hover:bg-pisco-sky/5 transition; }
         .ui-btn-outline-wide  { @apply inline-flex items-center gap-2 rounded-xl border border-pisco-sky px-5 py-2 text-sm font-medium text-pisco-sky hover:bg-pisco-sky/5 transition; }
-        .ui-btn-inline        { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white; background: linear-gradient(90deg, #353535, #284b63); }
+        .ui-btn-inline        { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white; background: linear-gradient(90deg, #26263A, #26263A); }
         .ui-btn-ghost-danger  { @apply text-red-500 hover:text-red-700 text-xs font-medium transition; }
 
         /* ─── Paneles ───────────────────────────────────── */
-        .ui-panel         { @apply rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm; }
-        .ui-panel-p4      { @apply rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 space-y-3 shadow-sm; }
-        .ui-panel-p5      { @apply rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-sm ui-hover-lift; }
-        .ui-panel-p6      { @apply rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-sm ui-hover-lift; }
-        .ui-panel-p6-stack{ @apply rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-6 space-y-4 shadow-sm; }
+        .ui-panel         { @apply rounded-2xl border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33] shadow-sm; }
+        .ui-panel-p4      { @apply rounded-2xl border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33] p-4 space-y-3 shadow-sm; }
+        .ui-panel-p5      { @apply rounded-2xl border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33] p-4 sm:p-5 shadow-sm ui-hover-lift; }
+        .ui-panel-p6      { @apply rounded-2xl border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33] p-4 sm:p-6 shadow-sm ui-hover-lift; }
+        .ui-panel-p6-stack{ @apply rounded-2xl border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33] p-4 sm:p-6 space-y-4 shadow-sm; }
         .ui-panel-highlight { @apply sm:col-span-2 rounded-xl bg-pisco-sky/5 dark:bg-pisco-sky/10 px-4 py-3 text-sm border border-pisco-sky/20; }
         .ui-muted-inline  { @apply text-slate-400; }
 
         /* Stat card */
         .ui-stat-card {
-          @apply rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900;
+          @apply rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33];
         }
         .ui-stat-card-gold {
           @apply rounded-2xl p-4 sm:p-5 shadow-md border text-white;
-          background: linear-gradient(135deg, #3c6e71, #284b63);
-          border-color: #3c6e71;
+          background: linear-gradient(135deg, #7A7AA3, #26263A);
+          border-color: #7A7AA3;
         }
         .ui-stat-card-sky {
           @apply rounded-2xl p-4 sm:p-5 shadow-md border text-white;
-          background: linear-gradient(135deg, #353535, #284b63);
-          border-color: #284b63;
+          background: linear-gradient(135deg, #26263A, #26263A);
+          border-color: #26263A;
         }
         .ui-stat-card-green {
           @apply rounded-2xl p-4 sm:p-5 shadow-md border text-white;
-          background: linear-gradient(135deg, #284b63, #3c6e71);
-          border-color: #3c6e71;
+          background: linear-gradient(135deg, #26263A, #7A7AA3);
+          border-color: #7A7AA3;
         }
 
         /* Forms / layouts */
-        .ui-form-report     { @apply rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-6 mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3 shadow-sm; }
+        .ui-form-report     { @apply rounded-2xl border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33] p-4 sm:p-6 mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3 shadow-sm; }
         .ui-form-actions-row { @apply flex flex-wrap items-end gap-2 md:col-span-2 xl:col-span-3; }
         .ui-toolbar         { @apply flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6; }
         .ui-toolbar-search  { @apply flex gap-2 flex-1 max-w-xl; }
@@ -294,25 +294,25 @@ $dark = $_COOKIE['theme'] ?? 'light';
         .ui-grid-2          { @apply grid gap-4 sm:gap-6 lg:grid-cols-2; }
         .ui-grid-asist      { @apply grid gap-4 sm:gap-8 lg:grid-cols-2; }
         .ui-grid-stats      { @apply grid gap-3 grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 mb-8; }
-        .ui-chart-block     { @apply mt-6 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-sm; }
+        .ui-chart-block     { @apply mt-6 rounded-2xl border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33] p-4 sm:p-6 shadow-sm; }
 
         /* ─── Tablas ────────────────────────────────────── */
-        .ui-table-wrap        { @apply overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm; }
-        .ui-table-wrap-shadow { @apply overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm; }
+        .ui-table-wrap        { @apply overflow-x-auto rounded-2xl border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33] shadow-sm; }
+        .ui-table-wrap-shadow { @apply overflow-x-auto rounded-2xl border border-slate-200 dark:border-[#2e2842] bg-white dark:bg-[#231f33] shadow-sm; }
         .ui-table-head {
           @apply px-5 py-3.5 text-sm font-bold border-b-2 font-display;
-          color: #353535; border-bottom-color: #3c6e71;
+          color: #26263A; border-bottom-color: #7A7AA3;
         }
-        .dark .ui-table-head { color: #d9d9d9; border-bottom-color: #3c6e71; }
+        .dark .ui-table-head { color: #d8d4ec; border-bottom-color: #7A7AA3; }
         .ui-table       { @apply min-w-full text-sm; }
         .ui-table-left  { @apply min-w-full text-sm text-left; }
         .ui-thead       { background: linear-gradient(90deg, #f0f5f5, #e0ebeb); }
-        .dark .ui-thead { background: rgba(70,129,137,0.12); }
-        .ui-thead-plain { @apply bg-slate-50 dark:bg-slate-800/50; }
+        .dark .ui-thead { background: rgba(122,122,163,0.10); }
+        .ui-thead-plain { @apply bg-slate-50 dark:bg-[#1e1b2e]; }
         .ui-th          { @apply px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-pisco-sky dark:text-pisco-skylt; }
         .ui-th-right    { @apply px-4 py-3 text-right text-xs font-bold uppercase tracking-wide text-pisco-sky dark:text-pisco-skylt; }
         .ui-th-tight    { @apply px-3 py-2 text-left text-xs font-bold uppercase tracking-wide text-pisco-sky dark:text-pisco-skylt; }
-        .ui-tbody       { @apply divide-y divide-slate-100 dark:divide-slate-800; }
+        .ui-tbody       { @apply divide-y divide-slate-100 dark:divide-[#2e2842]; }
         .ui-tr-hover    { @apply hover:bg-pisco-sky/5 dark:hover:bg-pisco-sky/10 transition-colors; }
         .ui-td          { @apply px-4 py-3.5; }
         .ui-td-compact  { @apply px-4 py-2.5; }
@@ -322,24 +322,24 @@ $dark = $_COOKIE['theme'] ?? 'light';
         /* ─── Badges / estados ──────────────────────────── */
         .ui-badge-base      { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold; }
         .ui-badge-ok        { @apply ui-badge-base; background:#eafaf1; color:#1E8449; }
-        .ui-badge-warn      { @apply ui-badge-base; background:#fef9e7; color:#3c6e71; border: 1px solid rgba(119,172,162,0.3); }
+        .ui-badge-warn      { @apply ui-badge-base; background:#fef9e7; color:#7A7AA3; border: 1px solid rgba(119,172,162,0.3); }
         .ui-badge-err       { @apply ui-badge-base; background:#fdedec; color:#922B21; }
-        .ui-badge-muted     { @apply ui-badge-base bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300; }
+        .ui-badge-muted     { @apply ui-badge-base bg-slate-100 dark:bg-[#2e2842] text-slate-500 dark:text-[#c4bfe0]; }
 
         /* Section headings */
         .ui-section-title {
           @apply font-display text-lg font-bold mb-4;
-          color: #353535;
+          color: #26263A;
           padding-bottom: 0.5rem;
-          border-bottom: 2px solid #3c6e71;
+          border-bottom: 2px solid #7A7AA3;
         }
-        .dark .ui-section-title { color: #d9d9d9; }
+        .dark .ui-section-title { color: #DCDCEC; }
 
         /* ─── Misceláneos ───────────────────────────────── */
         .ui-qr-reader       { @apply rounded-2xl overflow-hidden border-2 border-pisco-gold bg-black min-h-[240px]; }
         .ui-img-thumb       { @apply h-16 rounded-xl border-2 border-pisco-gold/30; }
-        .ui-divider-list    { @apply divide-y divide-slate-100 dark:divide-slate-800 text-sm; }
-        .ui-alert-amber     { @apply rounded-xl px-4 py-3 text-sm font-medium; background:#fef9e7; color:#7D6608; border-left: 4px solid #3c6e71; }
+        .ui-divider-list    { @apply divide-y divide-slate-100 dark:divide-[#2e2842] text-sm; }
+        .ui-alert-amber     { @apply rounded-xl px-4 py-3 text-sm font-medium; background:#fef9e7; color:#7D6608; border-left: 4px solid #7A7AA3; }
         .ui-text-success    { @apply text-sm font-medium text-pisco-green; }
 
         /* ─── Mobile overlay ────────────────────────────── */
@@ -347,8 +347,8 @@ $dark = $_COOKIE['theme'] ?? 'light';
         .ui-mobile-backdrop { @apply absolute inset-0 bg-black/60 backdrop-blur-sm; }
         .ui-mobile-sheet    {
           @apply absolute left-0 top-0 h-full w-72 p-5 overflow-y-auto;
-          background: linear-gradient(170deg, #353535 0%, #284b63 100%);
-          border-right: 3px solid #3c6e71;
+          background: linear-gradient(170deg, #26263A 0%, #26263A 100%);
+          border-right: 3px solid #7A7AA3;
         }
         .ui-mobile-nav-title { @apply font-display font-bold text-white text-lg mb-4; }
         .ui-mobile-nav-link  { @apply block py-2.5 px-3 rounded-lg text-sky-100 hover:bg-white/10 hover:text-white text-sm transition; }
@@ -392,14 +392,15 @@ $dark = $_COOKIE['theme'] ?? 'light';
                 echo '<p class="ui-nav-section">General</p>';
                 $nav('inicio',       'Inicio',       '🏠');
                 $nav('asistencia',   'Asistencia',   '📅');
+                $nav('estadisticas', 'Estadísticas', '📊');
                 $nav('practicantes', 'Practicantes', '👤');
                 $nav('reportes',     'Reportes',     '📄');
             } else {
                 echo '<p class="ui-nav-section">General</p>';
                 $nav('inicio',      'Inicio',        '🏠');
                 $nav('asistencia',  'Asistencia',    '📅');
+                $nav('estadisticas','Estadísticas',  '📊');
                 $nav('practicantes','Practicantes',  '👤');
-                $nav('escaner',     'Escaner QR',    '📷');
                 $nav('reportes',    'Reportes',      '📄');
                 if (is_admin($user)) {
                     echo '<p class="ui-nav-section">Administración</p>';
@@ -427,7 +428,7 @@ $dark = $_COOKIE['theme'] ?? 'light';
                         <button type="button" class="ui-menu-btn" id="openSidebar" aria-label="Menú">☰</button>
                         <?php else: ?>
                         <?php if (($_GET['r'] ?? '') === 'mi_qr'): ?>
-                        <a href="<?= e(app_url('index.php?r=mi_panel')) ?>" class="inline-flex items-center justify-center h-9 px-3 rounded-lg bg-[#284b63]/10 text-[#284b63] dark:text-[#3c6e71] hover:bg-[#284b63]/20 transition-colors text-sm font-semibold" title="Volver a Mi Panel">
+                        <a href="<?= e(app_url('index.php?r=mi_panel')) ?>" class="inline-flex items-center justify-center h-9 px-3 rounded-lg bg-[#26263A]/10 text-[#26263A] dark:text-[#7A7AA3] hover:bg-[#26263A]/20 transition-colors text-sm font-semibold" title="Volver a Mi Panel">
                             ⬅ Volver
                         </a>
                         <?php else: ?>
@@ -451,19 +452,19 @@ $dark = $_COOKIE['theme'] ?? 'light';
                                 class="flex items-center gap-2 rounded-full pl-1 pr-3 py-1 text-sm font-medium transition-all hover:bg-pisco-sky/10"
                                 style="border: 1.5px solid rgba(70,129,137,0.25);">
                             <span class="h-7 w-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-                                  style="background: linear-gradient(135deg,#284b63,#3c6e71);">
+                                  style="background: linear-gradient(135deg,#26263A,#7A7AA3);">
                                 <?= mb_strtoupper(mb_substr($user['nombres'], 0, 1)) ?>
                             </span>
-                            <span class="hidden sm:block text-slate-700 dark:text-slate-200 max-w-[120px] truncate">
+                            <span class="hidden sm:block text-slate-700 dark:text-stone-200 max-w-[120px] truncate">
                                 <?= e(explode(' ', $user['nombres'])[0]) ?>
                             </span>
                             <span class="text-slate-400 text-xs">▾</span>
                         </button>
                         <!-- Dropdown -->
                         <div id="userMenu"
-                             class="hidden absolute right-0 top-full mt-2 w-52 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-900 z-50 overflow-hidden">
+                             class="hidden absolute right-0 top-full mt-2 w-52 rounded-2xl shadow-xl border border-slate-100 dark:border-stone-700 bg-white dark:bg-stone-900 z-50 overflow-hidden">
                             <div class="px-4 py-3" style="border-bottom:1px solid rgba(70,129,137,0.15);">
-                                <p class="font-semibold text-sm text-slate-700 dark:text-slate-200 truncate"><?= e($user['nombres']) ?></p>
+                                <p class="font-semibold text-sm text-slate-700 dark:text-stone-200 truncate"><?= e($user['nombres']) ?></p>
                                 <p class="text-xs text-slate-400 capitalize mt-0.5"><?= e($user['rol']) ?></p>
                             </div>
                             <div class="p-2">

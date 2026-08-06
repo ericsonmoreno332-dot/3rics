@@ -59,9 +59,9 @@ ob_start();
             <?php foreach ($areas as $a): ?>
                 <li class="flex justify-between items-center py-2.5">
                     <div>
-                        <span class="font-medium text-slate-800 dark:text-slate-100"><?= e($a['nombre']) ?></span>
+                        <span class="font-medium text-slate-800 dark:text-stone-100"><?= e($a['nombre']) ?></span>
                         <?php if (!empty($a['encargado'])): ?>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                            <p class="text-xs text-slate-500 dark:text-stone-400 mt-0.5">
                                 💼 Jefe: <?= e($a['encargado']) ?><?= !empty($a['cargo']) ? ' — ' . e($a['cargo']) : '' ?>
                             </p>
                         <?php endif; ?>

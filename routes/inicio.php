@@ -68,12 +68,12 @@ ob_start();
     <!-- Total practicantes -->
     <div class="ui-panel rounded-2xl p-4 sm:p-5 ui-animate-entry delay-100 group hover:shadow-md transition-shadow">
         <div class="flex items-center gap-3 mb-3">
-            <div class="h-11 w-11 rounded-full flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, #284b63, #3c6e71);">
+            <div class="h-11 w-11 rounded-full flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, #26263A, #7A7AA3);">
                 <span class="text-white text-lg">👥</span>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Total practicantes</p>
-                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-slate-100 leading-none mt-0.5"><?= $totalPracticantes ?></p>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-stone-500">Total practicantes</p>
+                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-stone-100 leading-none mt-0.5"><?= $totalPracticantes ?></p>
             </div>
         </div>
         <div class="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
@@ -88,13 +88,13 @@ ob_start();
                 <span class="text-white text-lg">👤</span>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Activos</p>
-                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-slate-100 leading-none mt-0.5"><?= $activos ?></p>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-stone-500">Activos</p>
+                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-stone-100 leading-none mt-0.5"><?= $activos ?></p>
             </div>
         </div>
         <div class="flex items-center gap-2 text-xs text-slate-500">
             <span><?= $pctActivos ?>% activos</span>
-            <div class="flex-1 h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+            <div class="flex-1 h-1.5 rounded-full bg-slate-200 dark:bg-stone-700 overflow-hidden">
                 <div class="h-full rounded-full bg-emerald-500 transition-all" style="width:<?= $pctActivos ?>%"></div>
             </div>
         </div>
@@ -107,8 +107,8 @@ ob_start();
                 <span class="text-white text-lg">📅</span>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Asistencias hoy</p>
-                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-slate-100 leading-none mt-0.5"><?= $asistHoy ?></p>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-stone-500">Asistencias hoy</p>
+                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-stone-100 leading-none mt-0.5"><?= $asistHoy ?></p>
             </div>
         </div>
         <a href="<?= e(app_url('index.php?r=asistencia')) ?>" class="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
@@ -123,8 +123,8 @@ ob_start();
                 <span class="text-white text-lg">⏰</span>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Tardanzas hoy</p>
-                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-slate-100 leading-none mt-0.5"><?= $tardHoy ?></p>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-stone-500">Tardanzas hoy</p>
+                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-stone-100 leading-none mt-0.5"><?= $tardHoy ?></p>
             </div>
         </div>
         <a href="<?= e(app_url('index.php?r=reportes')) ?>" class="text-xs text-amber-500 hover:text-amber-700 dark:text-amber-400 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
@@ -139,8 +139,8 @@ ob_start();
                 <span class="text-white text-lg">⚠️</span>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Faltas hoy</p>
-                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-slate-100 leading-none mt-0.5"><?= $faltasHoy ?></p>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-stone-500">Faltas hoy</p>
+                <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-800 dark:text-stone-100 leading-none mt-0.5"><?= $faltasHoy ?></p>
             </div>
         </div>
         <a href="<?= e(app_url('index.php?r=reportes')) ?>" class="text-xs text-red-500 hover:text-red-700 dark:text-red-400 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
@@ -151,11 +151,11 @@ ob_start();
 
 <!-- ═══ ACCESOS RÁPIDOS ════════════════════════════════════ -->
 <div class="mb-6 ui-animate-entry delay-200">
-    <h2 class="font-display text-lg font-bold text-slate-800 dark:text-slate-200 mb-4">Accesos rápidos</h2>
+    <h2 class="font-display text-lg font-bold text-slate-800 dark:text-stone-200 mb-4">Accesos rápidos</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <?php
         $accesos = [
-            ['Asistencia', 'Registrar ingreso de practicantes', 'asistencia', 'Registrar', '#284b63', '#3c6e71', '📋'],
+            ['Asistencia', 'Registrar ingreso de practicantes', 'asistencia', 'Registrar', '#26263A', '#7A7AA3', '📋'],
             ['Escáner QR', 'Escanear código QR de practicantes', 'escaner', 'Escanear', '#3b82f6', '#60a5fa', '📷'],
             ['Practicantes', 'Gestionar perfiles y asignaciones', 'practicantes', 'Gestionar', '#10b981', '#34d399', '👤'],
             ['Reportes', 'Generar reportes en PDF / Excel', 'reportes', 'Generar', '#f59e0b', '#fbbf24', '📄'],
@@ -167,8 +167,8 @@ ob_start();
                 <?= $aIcon ?>
             </div>
             <div class="flex-1 min-w-0">
-                <h3 class="font-bold text-sm text-slate-800 dark:text-slate-200"><?= e($aTitle) ?></h3>
-                <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5 leading-relaxed"><?= e($aDesc) ?></p>
+                <h3 class="font-bold text-sm text-slate-800 dark:text-stone-200"><?= e($aTitle) ?></h3>
+                <p class="text-xs text-slate-400 dark:text-stone-500 mt-0.5 leading-relaxed"><?= e($aDesc) ?></p>
             </div>
             <a href="<?= e(app_url('index.php?r=' . $aRoute)) ?>"
                class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-semibold border-2 transition-all duration-200 hover:text-white self-start"
@@ -187,8 +187,8 @@ ob_start();
     <!-- Asistencias por semana -->
     <div class="ui-panel rounded-2xl p-4 sm:p-5">
         <div class="flex items-center justify-between mb-4">
-            <h3 class="font-display font-bold text-sm text-slate-800 dark:text-slate-200">Asistencias por semana</h3>
-            <span class="text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500">Esta semana</span>
+            <h3 class="font-display font-bold text-sm text-slate-800 dark:text-stone-200">Asistencias por semana</h3>
+            <span class="text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 dark:bg-stone-800 text-slate-500">Esta semana</span>
         </div>
         <div style="height:200px;">
             <canvas id="chartWeek"></canvas>
@@ -197,13 +197,13 @@ ob_start();
 
     <!-- Resumen general (donut) -->
     <div class="ui-panel rounded-2xl p-4 sm:p-5">
-        <h3 class="font-display font-bold text-sm text-slate-800 dark:text-slate-200 mb-4">Resumen general</h3>
+        <h3 class="font-display font-bold text-sm text-slate-800 dark:text-stone-200 mb-4">Resumen general</h3>
         <div class="flex items-center gap-4">
             <div class="relative w-32 h-32 shrink-0">
                 <canvas id="chartDonut" width="128" height="128"></canvas>
                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                     <span class="text-xs text-slate-400 font-medium">Total</span>
-                    <span class="text-2xl font-extrabold text-slate-800 dark:text-slate-100"><?= $totalReg ?></span>
+                    <span class="text-2xl font-extrabold text-slate-800 dark:text-stone-100"><?= $totalReg ?></span>
                     <span class="text-[10px] text-slate-400">registros</span>
                 </div>
             </div>
@@ -211,23 +211,23 @@ ob_start();
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span class="h-2.5 w-2.5 rounded-full bg-emerald-500 shrink-0"></span>
-                        <span class="text-slate-600 dark:text-slate-400">Puntuales</span>
+                        <span class="text-slate-600 dark:text-stone-400">Puntuales</span>
                     </div>
-                    <span class="font-bold text-slate-800 dark:text-slate-200"><?= $pctPuntual ?>% <span class="font-normal text-slate-400">(<?= $puntualHoy ?>)</span></span>
+                    <span class="font-bold text-slate-800 dark:text-stone-200"><?= $pctPuntual ?>% <span class="font-normal text-slate-400">(<?= $puntualHoy ?>)</span></span>
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span class="h-2.5 w-2.5 rounded-full bg-amber-400 shrink-0"></span>
-                        <span class="text-slate-600 dark:text-slate-400">Tardanzas</span>
+                        <span class="text-slate-600 dark:text-stone-400">Tardanzas</span>
                     </div>
-                    <span class="font-bold text-slate-800 dark:text-slate-200"><?= $pctTard ?>% <span class="font-normal text-slate-400">(<?= $tardHoy ?>)</span></span>
+                    <span class="font-bold text-slate-800 dark:text-stone-200"><?= $pctTard ?>% <span class="font-normal text-slate-400">(<?= $tardHoy ?>)</span></span>
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span class="h-2.5 w-2.5 rounded-full bg-red-400 shrink-0"></span>
-                        <span class="text-slate-600 dark:text-slate-400">Faltas</span>
+                        <span class="text-slate-600 dark:text-stone-400">Faltas</span>
                     </div>
-                    <span class="font-bold text-slate-800 dark:text-slate-200"><?= $pctFalta ?>% <span class="font-normal text-slate-400">(<?= $faltasHoy ?>)</span></span>
+                    <span class="font-bold text-slate-800 dark:text-stone-200"><?= $pctFalta ?>% <span class="font-normal text-slate-400">(<?= $faltasHoy ?>)</span></span>
                 </div>
             </div>
         </div>
@@ -236,34 +236,34 @@ ob_start();
 
     <!-- Estado del sistema -->
     <div class="ui-panel rounded-2xl p-4 sm:p-5">
-        <h3 class="font-display font-bold text-sm text-slate-800 dark:text-slate-200 mb-4">Estado del sistema</h3>
+        <h3 class="font-display font-bold text-sm text-slate-800 dark:text-stone-200 mb-4">Estado del sistema</h3>
         <div class="flex items-center gap-2 mb-4">
             <span class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Sistema QR activo</span>
         </div>
         <div class="space-y-3 text-sm">
-            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-stone-800/50">
                 <span class="text-lg mt-0.5">📷</span>
                 <div>
                     <p class="text-[11px] text-slate-400 uppercase font-semibold tracking-wide">Último escaneo</p>
                     <?php
                     $lastScan = $pdo->query("SELECT hora_entrada FROM asistencias WHERE fecha = CURDATE() ORDER BY id DESC LIMIT 1")->fetchColumn();
                     ?>
-                    <p class="font-medium text-slate-700 dark:text-slate-300"><?= $lastScan ? e(substr($lastScan, 0, 5)) : 'Sin escaneos hoy' ?></p>
+                    <p class="font-medium text-slate-700 dark:text-stone-300"><?= $lastScan ? e(substr($lastScan, 0, 5)) : 'Sin escaneos hoy' ?></p>
                 </div>
             </div>
-            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-stone-800/50">
                 <span class="text-lg mt-0.5">🏢</span>
                 <div>
                     <p class="text-[11px] text-slate-400 uppercase font-semibold tracking-wide">Hora límite entrada</p>
-                    <p class="font-medium text-slate-700 dark:text-slate-300"><?= e(tardanza_limite_hora()) ?></p>
+                    <p class="font-medium text-slate-700 dark:text-stone-300"><?= e(tardanza_limite_hora()) ?></p>
                 </div>
             </div>
-            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-stone-800/50">
                 <span class="text-lg mt-0.5">📊</span>
                 <div>
                     <p class="text-[11px] text-slate-400 uppercase font-semibold tracking-wide">Registros hoy</p>
-                    <p class="font-medium text-slate-700 dark:text-slate-300"><?= $registrosHoyCount ?> registro(s)</p>
+                    <p class="font-medium text-slate-700 dark:text-stone-300"><?= $registrosHoyCount ?> registro(s)</p>
                 </div>
             </div>
         </div>
@@ -291,10 +291,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 backgroundColor: weekData.map((v,i) => {
                     const today = (new Date().getDay() + 6) % 7;
                     return i === today
-                        ? (isDark ? '#3c6e71' : '#284b63')
+                        ? (isDark ? '#7A7AA3' : '#26263A')
                         : (isDark ? 'rgba(119,172,162,0.25)' : 'rgba(70,129,137,0.2)');
                 }),
-                hoverBackgroundColor: isDark ? '#d9d9d9' : '#284b63',
+                hoverBackgroundColor: isDark ? '#DCDCEC' : '#26263A',
                 borderRadius: 6,
                 barPercentage: 0.6,
             }]

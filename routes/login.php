@@ -57,7 +57,7 @@ $title = 'Iniciar sesión';
 ob_start();
 ?>
 
-<div class="min-h-screen w-full flex items-center justify-center md:items-stretch md:justify-start bg-slate-100 dark:bg-slate-950 transition-colors duration-300 relative overflow-hidden">
+<div class="min-h-screen w-full flex items-center justify-center md:items-stretch md:justify-start bg-slate-100 dark:bg-stone-950 transition-colors duration-300 relative overflow-hidden">
     
     <!-- Imagen de fondo difuminada para móviles -->
     <div class="absolute inset-0 md:hidden z-0">
@@ -66,25 +66,25 @@ ob_start();
     </div>
 
     <!-- COLUMNA IZQUIERDA: FORMULARIO (Flotante en móvil, panel completo en escritorio) -->
-    <div class="w-[92%] sm:w-[440px] md:w-[45%] lg:w-[40%] xl:w-[35%] my-auto md:my-0 md:h-screen max-h-[95vh] overflow-y-auto md:overflow-visible md:max-h-none flex flex-col justify-between p-8 sm:p-10 md:p-12 lg:p-16 bg-white/95 dark:bg-slate-900/95 md:bg-white md:dark:bg-slate-900 backdrop-blur-md md:backdrop-blur-none rounded-2xl md:rounded-none shadow-2xl md:shadow-xl z-10 transition-all duration-300 border border-white/20 md:border-none">
+    <div class="w-[92%] sm:w-[440px] md:w-[45%] lg:w-[40%] xl:w-[35%] my-auto md:my-0 md:h-screen max-h-[95vh] overflow-y-auto md:overflow-visible md:max-h-none flex flex-col justify-between p-8 sm:p-10 md:p-12 lg:p-16 bg-white/95 dark:bg-stone-900/95 md:bg-white md:dark:bg-stone-900 backdrop-blur-md md:backdrop-blur-none rounded-2xl md:rounded-none shadow-2xl md:shadow-xl z-10 transition-all duration-300 border border-white/20 md:border-none">
         
         <!-- Cabecera de Columna: Logo e interruptor de tema -->
         <div class="flex items-center justify-between mb-8 md:mb-4">
             <div class="flex items-center gap-3">
-                <div class="h-11 w-11 rounded-full flex items-center justify-center overflow-hidden border-2 border-[#3c6e71] bg-white shadow-sm shrink-0">
+                <div class="h-11 w-11 rounded-full flex items-center justify-center overflow-hidden border-2 border-[#7A7AA3] bg-white shadow-sm shrink-0">
                     <img src="<?= e(app_url('assets/img/escudo-pisco.png')) ?>" alt="Escudo de Pisco" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
                     <span style="display:none; font-size:22px;">🏛️</span>
                 </div>
                 <div>
                     <h2 class="font-display font-bold text-slate-800 dark:text-white text-sm leading-tight tracking-wide">MUNICIPALIDAD</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Provincial de Pisco</p>
+                    <p class="text-xs text-slate-500 dark:text-stone-400 font-medium">Provincial de Pisco</p>
                 </div>
             </div>
             
             <!-- Botón de tema -->
-            <button type="button" id="loginThemeToggle" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all active:scale-95" aria-label="Cambiar tema">
+            <button type="button" id="loginThemeToggle" class="p-2.5 rounded-xl border border-slate-200 dark:border-stone-700 text-slate-500 dark:text-stone-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all active:scale-95" aria-label="Cambiar tema">
                 <!-- Sol en modo oscuro -->
-                <svg class="w-5 h-5 hidden dark:block text-[#3c6e71]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg class="w-5 h-5 hidden dark:block text-[#7A7AA3]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
                 </svg>
                 <!-- Luna en modo claro -->
@@ -98,8 +98,8 @@ ob_start();
         <div class="my-auto py-4">
             <!-- Carrusel de GIFs -->
             <div class="mb-5 flex justify-center">
-                <div class="relative w-44 h-44 rounded-2xl overflow-hidden shadow-xl border-[3px] border-[#284b63] ring-4 ring-[#d9d9d9]/30"
-                     style="background:#353535;">
+                <div class="relative w-44 h-44 rounded-2xl overflow-hidden shadow-xl border-[3px] border-[#26263A] ring-4 ring-[#DCDCEC]/30"
+                     style="background:#26263A;">
                     <?php
                     $gifs = [
                         'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHdsZjV1azA3NWJwNG44Yzd0M2l1cGYybXZiOG1heHlqNjZya3I0aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5AHtj2UbniPlKqw11Y/giphy.gif',
@@ -114,16 +114,16 @@ ob_start();
                     <!-- Indicadores -->
                     <div class="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 z-10">
                         <?php foreach ($gifs as $i => $_): ?>
-                        <span id="gif-dot-<?= $i ?>" class="block h-1.5 rounded-full transition-all duration-300 <?= $i === 0 ? 'w-4 bg-[#3c6e71]' : 'w-1.5 bg-white/40' ?>" style="<?= $i === 0 ? 'box-shadow:0 0 6px #3c6e71cc' : '' ?>"></span>
+                        <span id="gif-dot-<?= $i ?>" class="block h-1.5 rounded-full transition-all duration-300 <?= $i === 0 ? 'w-4 bg-[#7A7AA3]' : 'w-1.5 bg-white/40' ?>" style="<?= $i === 0 ? 'box-shadow:0 0 6px #7A7AA3cc' : '' ?>"></span>
                         <?php endforeach; ?>
                     </div>
                 </div>
             </div>
 
-            <h1 class="font-display font-bold text-3xl leading-tight mb-2" style="color:#353535;" class="dark:text-white">
+            <h1 class="font-display font-bold text-3xl leading-tight mb-2" style="color:#26263A;" class="dark:text-white">
                 ¡Bienvenido!
             </h1>
-            <p class="text-sm mb-6" style="color:#284b63;">
+            <p class="text-sm mb-6" style="color:#26263A;">
                 Control de asistencia de practicantes. Ingresa tus credenciales para acceder.
             </p>
 
@@ -143,17 +143,17 @@ ob_start();
 
                 <!-- Usuario -->
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-stone-400 mb-2">
                         Usuario
                     </label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400 dark:text-slate-500">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400 dark:text-stone-500">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </span>
                         <input name="username" type="text" required autocomplete="username"
-                               class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#284b63] focus:ring-2 focus:ring-[#284b63]/20 transition-all font-medium"
+                               class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 dark:border-stone-700 bg-slate-50 dark:bg-stone-800 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-stone-500 focus:outline-none focus:border-[#26263A] focus:ring-2 focus:ring-[#26263A]/20 transition-all font-medium"
                                placeholder="Ingresa tu usuario o DNI">
                     </div>
                 </div>
@@ -161,20 +161,20 @@ ob_start();
                 <!-- Contraseña -->
                 <div>
                     <div class="flex justify-between items-center mb-2">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-stone-400">
                             Contraseña
                         </label>
                     </div>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400 dark:text-slate-500">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400 dark:text-stone-500">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2v2a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2h6zM7 11V7a5 5 0 0110 0v4"></path>
                             </svg>
                         </span>
                         <input name="password" id="loginPassword" type="password" required autocomplete="current-password"
-                               class="w-full pl-11 pr-11 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#284b63] focus:ring-2 focus:ring-[#284b63]/20 transition-all font-medium"
+                               class="w-full pl-11 pr-11 py-3 rounded-xl border border-slate-200 dark:border-stone-700 bg-slate-50 dark:bg-stone-800 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-stone-500 focus:outline-none focus:border-[#26263A] focus:ring-2 focus:ring-[#26263A]/20 transition-all font-medium"
                                placeholder="••••••••">
-                        <button type="button" id="togglePasswordBtn" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 dark:text-slate-500 hover:text-[#284b63] dark:hover:text-[#284b63] transition-colors" aria-label="Mostrar contraseña">
+                        <button type="button" id="togglePasswordBtn" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 dark:text-stone-500 hover:text-[#26263A] dark:hover:text-[#26263A] transition-colors" aria-label="Mostrar contraseña">
                             <!-- Ojo abierto -->
                             <svg id="eyeIconOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -190,7 +190,7 @@ ob_start();
 
 
                 <button type="submit" 
-                        class="w-full py-3.5 px-4 rounded-xl font-bold text-sm text-white hover:brightness-110 active:scale-[0.99] border-b-4 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2" style="background:linear-gradient(to right,#353535,#284b63);border-bottom-color:#284b63;">
+                        class="w-full py-3.5 px-4 rounded-xl font-bold text-sm text-white hover:brightness-110 active:scale-[0.99] border-b-4 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2" style="background:linear-gradient(to right,#26263A,#26263A);border-bottom-color:#26263A;">
                     <span>Ingresar al Sistema</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -200,8 +200,8 @@ ob_start();
         </div>
 
         <!-- Pie de Columna: Derechos de autor -->
-        <div class="mt-8 pt-4 border-t border-slate-100 dark:border-slate-800 text-center md:text-left">
-            <p class="text-xs text-slate-400 dark:text-slate-500 font-medium">
+        <div class="mt-8 pt-4 border-t border-slate-100 dark:border-stone-800 text-center md:text-left">
+            <p class="text-xs text-slate-400 dark:text-stone-500 font-medium">
                 &copy; <?= date('Y') ?> Municipalidad Provincial de Pisco.
             </p>
         </div>
@@ -215,29 +215,29 @@ ob_start();
              style="filter: brightness(0.65);">
         
         <!-- Overlays de gradiente para dar el look Premium -->
-        <div class="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900/50 to-[#284b63]/20 mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900/50 to-[#26263A]/20 mix-blend-multiply"></div>
         <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-transparent to-transparent"></div>
 
         <!-- Contenido textual encima de la imagen -->
         <div class="relative z-10 p-12 lg:p-16 max-w-xl text-white space-y-6">
-            <span class="inline-block bg-[#3c6e71] text-slate-950 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+            <span class="inline-block bg-[#7A7AA3] text-slate-950 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
                 Portal Oficial
             </span>
             
             <div class="space-y-3">
                 <h1 class="font-display font-bold text-4xl lg:text-5xl leading-tight drop-shadow-lg">
                     Municipalidad Provincial <br>
-                    <span class="text-[#d9d9d9]">de Pisco</span>
+                    <span class="text-[#DCDCEC]">de Pisco</span>
                 </h1>
                 <p class="text-slate-200 text-base lg:text-lg leading-relaxed font-light drop-shadow-sm">
                     Control de asistencia digital y geolocalizado para practicantes de todas las áreas municipales.
                 </p>
             </div>
 
-            <div class="h-1 w-20 bg-[#3c6e71] rounded-full"></div>
+            <div class="h-1 w-20 bg-[#7A7AA3] rounded-full"></div>
 
             <!-- Información municipal con reloj digital y slogan -->
-            <div class="flex items-center gap-4 text-[#d9d9d9] text-xs font-semibold">
+            <div class="flex items-center gap-4 text-[#DCDCEC] text-xs font-semibold">
                 <span class="text-lg">🏛️</span>
                 <span class="italic">"3ricso"</span>
                 <span class="text-white/20">|</span>
@@ -295,8 +295,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const nextDot = document.getElementById('gif-dot-' + current);
             if (prevImg) { prevImg.classList.remove('opacity-100'); prevImg.classList.add('opacity-0'); }
             if (nextImg) { nextImg.classList.add('opacity-100'); nextImg.classList.remove('opacity-0'); }
-            if (prevDot) { prevDot.style.boxShadow=''; prevDot.classList.remove('w-4','bg-[#3c6e71]'); prevDot.classList.add('w-1.5','bg-white/40'); }
-            if (nextDot) { nextDot.classList.remove('w-1.5','bg-white/40'); nextDot.classList.add('w-4','bg-[#3c6e71]'); nextDot.style.boxShadow='0 0 6px #3c6e71cc'; }
+            if (prevDot) { prevDot.style.boxShadow=''; prevDot.classList.remove('w-4','bg-[#7A7AA3]'); prevDot.classList.add('w-1.5','bg-white/40'); }
+            if (nextDot) { nextDot.classList.remove('w-1.5','bg-white/40'); nextDot.classList.add('w-4','bg-[#7A7AA3]'); nextDot.style.boxShadow='0 0 6px #7A7AA3cc'; }
         }
         setInterval(() => goTo(current + 1), interval);
     })();

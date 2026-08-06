@@ -22,7 +22,7 @@ ob_start();
 
     <!-- Header -->
     <div class="rounded-2xl overflow-hidden shadow-sky">
-        <div class="px-6 py-5" style="background: linear-gradient(135deg, #353535 0%, #284b63 100%);">
+        <div class="px-6 py-5" style="background: linear-gradient(135deg, #26263A 0%, #26263A 100%);">
             <h2 class="text-xl font-bold text-white flex items-center gap-2">
                 ✏️ Registro Manual de Asistencia
             </h2>
@@ -34,7 +34,7 @@ ob_start();
 
     <!-- Buscar practicante -->
     <div class="ui-panel p-6 space-y-4">
-        <h3 class="font-bold text-slate-700 dark:text-slate-200">Buscar practicante</h3>
+        <h3 class="font-bold text-slate-700 dark:text-stone-200">Buscar practicante</h3>
         <div class="flex gap-2">
             <input type="text" id="buscarPract" placeholder="Escriba DNI o nombre…"
                    class="ui-field" autocomplete="off">
@@ -44,18 +44,18 @@ ob_start();
         <div id="listaPract" class="space-y-2 max-h-64 overflow-y-auto">
             <?php foreach ($practicantes as $pr): ?>
             <button type="button"
-                    class="pract-item w-full text-left px-4 py-3 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-pisco-sky hover:bg-pisco-sky/5 transition-all flex items-center gap-3"
+                    class="pract-item w-full text-left px-4 py-3 rounded-xl border border-slate-100 dark:border-stone-700 hover:border-pisco-sky hover:bg-pisco-sky/5 transition-all flex items-center gap-3"
                     data-id="<?= (int)$pr['id'] ?>"
                     data-nombre="<?= e($pr['nombres'] . ' ' . $pr['apellidos']) ?>"
                     data-dni="<?= e($pr['dni']) ?>"
                     data-area="<?= e($pr['area_nombre'] ?? '') ?>"
                     data-estado="<?= e($pr['estado']) ?>">
                 <span class="shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white"
-                      style="background: linear-gradient(135deg,#284b63,#3c6e71)">
+                      style="background: linear-gradient(135deg,#26263A,#7A7AA3)">
                     <?= mb_strtoupper(mb_substr($pr['nombres'], 0, 1)) ?>
                 </span>
                 <div class="min-w-0">
-                    <p class="font-semibold text-sm text-slate-700 dark:text-slate-200 truncate">
+                    <p class="font-semibold text-sm text-slate-700 dark:text-stone-200 truncate">
                         <?= e($pr['nombres'] . ' ' . $pr['apellidos']) ?>
                     </p>
                     <p class="text-xs text-slate-400 font-mono"><?= e($pr['dni']) ?>
@@ -77,7 +77,7 @@ ob_start();
     <!-- Formulario de registro (aparece al seleccionar) -->
     <div id="formRegistro" class="ui-panel overflow-hidden hidden">
         <div id="formHeader" class="px-6 py-4 flex items-center gap-3"
-             style="background: linear-gradient(90deg,#353535,#284b63);">
+             style="background: linear-gradient(90deg,#26263A,#26263A);">
             <span class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold text-white shrink-0"
                   style="background:rgba(255,255,255,0.15)" id="fAvatar"></span>
             <div>

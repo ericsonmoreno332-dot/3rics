@@ -42,20 +42,20 @@ ob_start();
 <div class="grid md:grid-cols-3 gap-6">
     <!-- Columna Izquierda: Vista Previa del Perfil -->
     <div class="md:col-span-1 space-y-6">
-        <div class="ui-panel p-6 flex flex-col items-center text-center shadow-md relative overflow-hidden border border-slate-200 dark:border-slate-800">
+        <div class="ui-panel p-6 flex flex-col items-center text-center shadow-md relative overflow-hidden border border-slate-200 dark:border-stone-800">
             <!-- Barra decorativa degradada -->
-            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#353535] via-[#284b63] to-[#3c6e71]"></div>
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#26263A] via-[#26263A] to-[#7A7AA3]"></div>
             
             <!-- Avatar con Iniciales y Animación -->
-            <div class="h-28 w-28 rounded-full flex items-center justify-center text-4xl font-bold text-white shrink-0 shadow-lg border-2 border-white dark:border-slate-800 bg-gradient-to-br from-[#284b63] to-[#3c6e71] animate-float mt-4 mb-4 select-none" id="previewAvatar">
+            <div class="h-28 w-28 rounded-full flex items-center justify-center text-4xl font-bold text-white shrink-0 shadow-lg border-2 border-white dark:border-stone-800 bg-gradient-to-br from-[#26263A] to-[#7A7AA3] animate-float mt-4 mb-4 select-none" id="previewAvatar">
                 <?= $row ? mb_strtoupper(mb_substr($row['nombres'], 0, 1) . mb_substr($row['apellidos'], 0, 1)) : 'P' ?>
             </div>
             
             <!-- Nombre y Carrera -->
-            <h2 class="font-display font-bold text-xl text-slate-800 dark:text-slate-100 mt-2 truncate max-w-full" id="previewName">
+            <h2 class="font-display font-bold text-xl text-slate-800 dark:text-stone-100 mt-2 truncate max-w-full" id="previewName">
                 <?= $row ? e(nombre_completo($row['nombres'], $row['apellidos'])) : 'Nuevo Practicante' ?>
             </h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium" id="previewCarrera">
+            <p class="text-xs text-slate-500 dark:text-stone-400 mt-1 font-medium" id="previewCarrera">
                 <?= $row ? e($row['carrera']) : 'Carrera profesional' ?>
             </p>
             
@@ -76,26 +76,26 @@ ob_start();
             </div>
 
             <!-- Detalles Rápidos -->
-            <div class="w-full mt-6 pt-6 border-t border-slate-100 dark:border-slate-800/80 space-y-3.5 text-left text-sm">
+            <div class="w-full mt-6 pt-6 border-t border-slate-100 dark:border-stone-800/80 space-y-3.5 text-left text-sm">
                 <div class="flex items-center justify-between">
                     <span class="text-slate-400">DNI:</span>
-                    <span class="font-mono font-semibold text-slate-700 dark:text-slate-300" id="previewDni"><?= $row ? e($row['dni']) : '—' ?></span>
+                    <span class="font-mono font-semibold text-slate-700 dark:text-stone-300" id="previewDni"><?= $row ? e($row['dni']) : '—' ?></span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-slate-400">Institución:</span>
-                    <span class="font-semibold text-slate-700 dark:text-slate-300 text-right truncate max-w-[160px]" id="previewInst" title="<?= e($inst_name) ?>"><?= $row ? e($inst_name ?: '—') : '—' ?></span>
+                    <span class="font-semibold text-slate-700 dark:text-stone-300 text-right truncate max-w-[160px]" id="previewInst" title="<?= e($inst_name) ?>"><?= $row ? e($inst_name ?: '—') : '—' ?></span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-slate-400">Área:</span>
-                    <span class="font-semibold text-slate-700 dark:text-slate-300 text-right truncate max-w-[160px]" id="previewArea" title="<?= e($area_name) ?>"><?= $row ? e($area_name ?: '—') : '—' ?></span>
+                    <span class="font-semibold text-slate-700 dark:text-stone-300 text-right truncate max-w-[160px]" id="previewArea" title="<?= e($area_name) ?>"><?= $row ? e($area_name ?: '—') : '—' ?></span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-slate-400">F. Inicio:</span>
-                    <span class="font-semibold text-slate-700 dark:text-slate-300" id="previewFechaInicio"><?= $row && $row['fecha_inicio'] ? e($row['fecha_inicio']) : '—' ?></span>
+                    <span class="font-semibold text-slate-700 dark:text-stone-300" id="previewFechaInicio"><?= $row && $row['fecha_inicio'] ? e($row['fecha_inicio']) : '—' ?></span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-slate-400">F. Fin:</span>
-                    <span class="font-semibold text-slate-700 dark:text-slate-300" id="previewFechaFin"><?= $row && $row['fecha_fin'] ? e($row['fecha_fin']) : '—' ?></span>
+                    <span class="font-semibold text-slate-700 dark:text-stone-300" id="previewFechaFin"><?= $row && $row['fecha_fin'] ? e($row['fecha_fin']) : '—' ?></span>
                 </div>
             </div>
         </div>
@@ -103,12 +103,12 @@ ob_start();
 
     <!-- Columna Derecha: Formulario de Datos -->
     <div class="md:col-span-2">
-        <div class="ui-panel p-6 border border-slate-200 dark:border-slate-800 shadow-md">
+        <div class="ui-panel p-6 border border-slate-200 dark:border-stone-800 shadow-md">
             <form method="post" action="<?= e(app_url('index.php?r=practicante_save')) ?>" enctype="multipart/form-data" class="space-y-6" id="formPracticante">
                 <?= csrf_field() ?>
                 <input type="hidden" name="id" value="<?= $row ? (int) $row['id'] : 0 ?>">
                 
-                <h3 class="font-display font-bold text-lg text-pisco-sky dark:text-pisco-skylt border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h3 class="font-display font-bold text-lg text-pisco-sky dark:text-pisco-skylt border-b border-slate-100 dark:border-stone-800 pb-3">
                     Información Personal y Académica
                 </h3>
 
@@ -141,7 +141,7 @@ ob_start();
                     </div>
                     <div class="ui-panel-highlight">
                         <span class="ui-muted-inline">Nombre completo (automático):</span>
-                        <span class="font-semibold text-[#353535] dark:text-[#d9d9d9]" id="spanFullName"><?= e(nombre_completo($row['nombres'] ?? '', $row['apellidos'] ?? '')) ?></span>
+                        <span class="font-semibold text-[#26263A] dark:text-[#DCDCEC]" id="spanFullName"><?= e(nombre_completo($row['nombres'] ?? '', $row['apellidos'] ?? '')) ?></span>
                     </div>
                     <div class="sm:col-span-2">
                         <label class="ui-label">Carrera profesional <span class="ui-required">*</span></label>
@@ -190,7 +190,7 @@ ob_start();
                     </div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-100 dark:border-stone-800">
                     <div class="flex items-center gap-3 w-full sm:w-auto">
                         <button type="submit" class="ui-btn-primary-wide w-full sm:w-auto justify-center">Guardar Cambios</button>
                         <a href="<?= e(app_url('index.php?r=practicantes')) ?>" class="ui-btn-outline-wide w-full sm:w-auto justify-center">Cancelar</a>
@@ -231,7 +231,7 @@ document.getElementById('btnConsultarDni')?.addEventListener('click', async func
             text: 'Por favor, ingrese un DNI válido de 8 dígitos.',
             background: isDark ? '#0f172a' : '#ffffff',
             color: isDark ? '#f1f5f9' : '#0f172a',
-            confirmButtonColor: '#284b63'
+            confirmButtonColor: '#26263A'
         });
         return;
     }
@@ -284,7 +284,7 @@ document.getElementById('btnConsultarDni')?.addEventListener('click', async func
                 text: res.msg,
                 background: isDark ? '#0f172a' : '#ffffff',
                 color: isDark ? '#f1f5f9' : '#0f172a',
-                confirmButtonColor: '#284b63'
+                confirmButtonColor: '#26263A'
             });
         }
     } catch (err) {
@@ -295,7 +295,7 @@ document.getElementById('btnConsultarDni')?.addEventListener('click', async func
             text: 'No se pudo consultar el DNI: ' + err.message,
             background: isDark ? '#0f172a' : '#ffffff',
             color: isDark ? '#f1f5f9' : '#0f172a',
-            confirmButtonColor: '#284b63'
+            confirmButtonColor: '#26263A'
         });
     } finally {
         btn.disabled = false;
@@ -335,7 +335,7 @@ function confirmarEliminacion(event, nombre) {
     
     Swal.fire({
         title: '¿Estás completamente seguro?',
-        html: `Estás a punto de eliminar al practicante <strong class="text-[#284b63] dark:text-[#3c6e71]">${nombre}</strong>.<br><br><span class="text-xs text-red-500 font-bold block bg-red-50 dark:bg-red-950/30 p-3 rounded-lg border border-red-200 dark:border-red-900/50">⚠️ ADVERTENCIA: Esta acción es irreversible. Se borrarán permanentemente todos sus registros de asistencia y su cuenta de usuario vinculada al mismo tiempo.</span>`,
+        html: `Estás a punto de eliminar al practicante <strong class="text-[#26263A] dark:text-[#7A7AA3]">${nombre}</strong>.<br><br><span class="text-xs text-red-500 font-bold block bg-red-50 dark:bg-red-950/30 p-3 rounded-lg border border-red-200 dark:border-red-900/50">⚠️ ADVERTENCIA: Esta acción es irreversible. Se borrarán permanentemente todos sus registros de asistencia y su cuenta de usuario vinculada al mismo tiempo.</span>`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#dc2626',
@@ -346,7 +346,7 @@ function confirmarEliminacion(event, nombre) {
         color: isDark ? '#f1f5f9' : '#0f172a',
         iconColor: '#dc2626',
         customClass: {
-            popup: 'rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl'
+            popup: 'rounded-2xl border border-slate-200 dark:border-stone-800 shadow-xl'
         }
     }).then((result) => {
         if (result.isConfirmed) {

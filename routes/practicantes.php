@@ -7,10 +7,12 @@ $pdo = db();
 
 $q = trim((string) ($_GET['q'] ?? ''));
 $sql = 'SELECT p.*, a.nombre AS area_nombre, i.nombre AS institucion_nombre,
-        CONCAT(p.nombres, " ", p.apellidos) AS nombre_completo
+        CONCAT(p.nombres, " ", p.apellidos) AS nombre_completo,
+        u.id AS usuario_id
         FROM practicantes p
         LEFT JOIN areas a ON a.id = p.area_id
-        LEFT JOIN instituciones i ON i.id = p.institucion_id';
+        LEFT JOIN instituciones i ON i.id = p.institucion_id
+        LEFT JOIN usuarios u ON u.practicante_id = p.id';
 $params = [];
 if ($q !== '') {
     $sql .= ' WHERE (p.dni LIKE ? OR p.nombres LIKE ? OR p.apellidos LIKE ?)';
@@ -38,17 +40,17 @@ ob_start();
 <div class="mb-6 ui-animate-entry">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-transparent bg-clip-text bg-gradient-to-r from-[#284b63] to-[#3c6e71]">
+            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-transparent bg-clip-text bg-gradient-to-r from-[#26263A] to-[#7A7AA3]">
                 👥 Practicantes
             </h1>
-            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Gestiona y consulta todos los practicantes registrados.</p>
+            <p class="text-slate-500 dark:text-stone-400 text-sm mt-1">Gestiona y consulta todos los practicantes registrados.</p>
         </div>
     </div>
 </div>
 
 <!-- ═══ MINI STATS ════════════════════════════════════════════ -->
 <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-6 ui-animate-entry delay-100">
-    <div class="rounded-xl p-3 sm:p-4 bg-gradient-to-br from-[#284b63] to-[#353535] text-white shadow-md">
+    <div class="rounded-xl p-3 sm:p-4 bg-gradient-to-br from-[#26263A] to-[#26263A] text-white shadow-md">
         <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-white/70">Total</p>
         <p class="text-xl sm:text-2xl font-bold mt-1"><?= $totalCount ?></p>
     </div>
@@ -69,13 +71,13 @@ ob_start();
         <div class="relative flex-1">
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">🔍</span>
             <input type="search" name="q" value="<?= e($q) ?>" placeholder="Buscar por DNI, nombre o apellido…"
-                   class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#284b63]/30 focus:border-[#284b63] transition-all">
+                   class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#26263A]/30 focus:border-[#26263A] transition-all">
         </div>
         <button type="submit" class="ui-btn-primary px-5">Buscar</button>
     </form>
     <?php if ($q !== ''): ?>
         <div class="mt-2 flex items-center gap-2">
-            <span class="text-xs text-slate-500 dark:text-slate-400">Mostrando resultados para "<strong class="text-[#284b63] dark:text-[#3c6e71]"><?= e($q) ?></strong>"</span>
+            <span class="text-xs text-slate-500 dark:text-stone-400">Mostrando resultados para "<strong class="text-[#26263A] dark:text-[#7A7AA3]"><?= e($q) ?></strong>"</span>
             <a href="<?= e(app_url('index.php?r=practicantes')) ?>" class="text-xs text-red-400 hover:text-red-300 font-medium transition-colors">✕ Limpiar</a>
         </div>
     <?php endif; ?>
@@ -90,7 +92,7 @@ ob_start();
                 <th class="ui-th">Carrera</th>
                 <th class="ui-th">Institución</th>
                 <th class="ui-th">Área</th>
-                <th class="ui-th text-center">Estado</th>
+                <th class="ui-th">Estado</th>
                 <th class="ui-th text-center">QR</th>
                 <th class="ui-th-right">Acciones</th>
             </tr>
@@ -106,18 +108,18 @@ ob_start();
                 <td class="ui-td">
                     <div class="flex items-center gap-3">
                         <div class="h-9 w-9 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-                             style="background: linear-gradient(135deg, #284b63, #3c6e71);">
+                             style="background: linear-gradient(135deg, #26263A, #7A7AA3);">
                             <?= $initials ?>
                         </div>
                         <div class="min-w-0">
-                            <p class="font-semibold text-sm text-slate-800 dark:text-slate-200 truncate"><?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?></p>
+                            <p class="font-semibold text-sm text-slate-800 dark:text-stone-200 truncate"><?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?></p>
                             <p class="text-xs font-mono text-slate-400"><?= e($row['dni']) ?></p>
                         </div>
                     </div>
                 </td>
-                <td class="ui-td text-sm text-slate-600 dark:text-slate-400"><?= e($row['carrera']) ?></td>
-                <td class="ui-td text-sm text-slate-600 dark:text-slate-400"><?= e($row['institucion_nombre'] ?? '—') ?></td>
-                <td class="ui-td text-sm text-slate-600 dark:text-slate-400"><?= e($row['area_nombre'] ?? '—') ?></td>
+                <td class="ui-td text-sm text-slate-600 dark:text-stone-400"><?= e($row['carrera']) ?></td>
+                <td class="ui-td text-sm text-slate-600 dark:text-stone-400"><?= e($row['institucion_nombre'] ?? '—') ?></td>
+                <td class="ui-td text-sm text-slate-600 dark:text-stone-400"><?= e($row['area_nombre'] ?? '—') ?></td>
                 <!-- Estado badge -->
                 <td class="ui-td text-center">
                     <?php if ($row['estado'] === 'activo'): ?>
@@ -136,15 +138,23 @@ ob_start();
                 </td>
                 <!-- QR button -->
                 <td class="ui-td text-center">
-                    <button type="button" class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-[#284b63]/10 hover:bg-[#284b63]/20 text-[#284b63] dark:text-[#d9d9d9] transition-all duration-200 hover:scale-110 border-none cursor-pointer" onclick="mostrarQR('<?= e(app_url('index.php?r=qr_png&id=' . (int) $row['id'])) ?>', '<?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?>')" title="Ver código QR">
+                    <button type="button" class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-[#26263A]/10 hover:bg-[#26263A]/20 text-[#26263A] dark:text-[#DCDCEC] transition-all duration-200 hover:scale-110 border-none cursor-pointer" onclick="mostrarQR('<?= e(app_url('index.php?r=qr_png&id=' . (int) $row['id'])) ?>', '<?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?>')" title="Ver código QR">
                         📱
                     </button>
                 </td>
                 <!-- Actions -->
                 <td class="ui-td text-right">
                     <div class="flex items-center justify-end gap-1.5">
+                        <?php if ($row['estado'] !== 'activo' && !empty($row['usuario_id'])): ?>
+                            <button type="button"
+                                class="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-emerald-600 bg-emerald-500/10 hover:bg-emerald-500/20 transition-all duration-200 border-none cursor-pointer"
+                                onclick="abrirModalReactivar(<?= (int) $row['usuario_id'] ?>, '<?= e($row['nombre_completo']) ?>', '<?= e($row['fecha_inicio'] ?? '') ?>', '<?= e($row['fecha_fin'] ?? '') ?>')"
+                                title="Reactivar practicante">
+                                ✅ Reactivar
+                            </button>
+                        <?php endif; ?>
                         <a href="<?= e(app_url('index.php?r=practicante_form&id=' . (int) $row['id'])) ?>"
-                           class="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-[#284b63] dark:text-[#d9d9d9] bg-[#284b63]/10 hover:bg-[#284b63]/20 transition-all duration-200">
+                           class="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-[#26263A] dark:text-[#DCDCEC] bg-[#26263A]/10 hover:bg-[#26263A]/20 transition-all duration-200">
                             ✏️ Editar
                         </a>
                         <button type="button"
@@ -162,7 +172,7 @@ ob_start();
                         <span class="text-4xl">📭</span>
                         <p class="text-slate-400 font-medium">No se encontraron practicantes</p>
                         <?php if ($q !== ''): ?>
-                            <a href="<?= e(app_url('index.php?r=practicantes')) ?>" class="text-sm text-[#284b63] hover:underline">Limpiar búsqueda</a>
+                            <a href="<?= e(app_url('index.php?r=practicantes')) ?>" class="text-sm text-[#26263A] hover:underline">Limpiar búsqueda</a>
                         <?php endif; ?>
                     </div>
                 </td></tr>
@@ -178,15 +188,15 @@ ob_start();
         $initials = mb_strtoupper(mb_substr($row['nombres'], 0, 1) . mb_substr($row['apellidos'], 0, 1));
         $isActive = $row['estado'] === 'activo';
     ?>
-    <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 shadow-sm">
+    <div class="rounded-xl border border-slate-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4 shadow-sm">
         <!-- Header: Avatar + Name + Status -->
         <div class="flex items-center gap-3 mb-3">
             <div class="h-10 w-10 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
-                 style="background: linear-gradient(135deg, #284b63, #3c6e71);">
+                 style="background: linear-gradient(135deg, #26263A, #7A7AA3);">
                 <?= $initials ?>
             </div>
             <div class="flex-1 min-w-0">
-                <p class="font-bold text-sm text-slate-800 dark:text-slate-200 truncate"><?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?></p>
+                <p class="font-bold text-sm text-slate-800 dark:text-stone-200 truncate"><?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?></p>
                 <p class="text-xs font-mono text-slate-400"><?= e($row['dni']) ?></p>
             </div>
             <?php if ($row['estado'] === 'activo'): ?>
@@ -204,18 +214,31 @@ ob_start();
             <?php endif; ?>
         </div>
         <!-- Details -->
-        <div class="space-y-1.5 text-xs text-slate-600 dark:text-slate-400 mb-3 pl-[52px]">
+        <div class="space-y-1.5 text-xs text-slate-600 dark:text-stone-400 mb-3 pl-[52px]">
             <p>📚 <?= e($row['carrera']) ?></p>
             <p>🏫 <?= e($row['institucion_nombre'] ?? '—') ?></p>
             <p>🏢 <?= e($row['area_nombre'] ?? '—') ?></p>
         </div>
         <!-- Actions -->
         <div class="flex items-center gap-2 pl-[52px]">
+            <?php if ($row['estado'] !== 'activo' && !empty($row['usuario_id'])): ?>
+                <button type="button"
+                    class="inline-flex items-center justify-center h-8 px-3 gap-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 text-xs font-semibold transition-all border-none cursor-pointer"
+                    onclick="abrirModalReactivar(<?= (int) $row['usuario_id'] ?>, '<?= e($row['nombre_completo']) ?>', '<?= e($row['fecha_inicio'] ?? '') ?>', '<?= e($row['fecha_fin'] ?? '') ?>')"
+                    title="Reactivar">
+                    ✅ Reactivar
+                </button>
+            <?php else: ?>
+                <a href="<?= e(app_url('index.php?r=practicante_form&id=' . (int) $row['id'])) ?>"
+                   class="flex-1 inline-flex items-center justify-center gap-1 rounded-lg px-3 py-2 text-xs font-semibold text-[#26263A] dark:text-[#DCDCEC] bg-[#26263A]/10 hover:bg-[#26263A]/20 transition-all">
+                    ✏️ Editar
+                </a>
+            <?php endif; ?>
             <a href="<?= e(app_url('index.php?r=practicante_form&id=' . (int) $row['id'])) ?>"
-               class="flex-1 inline-flex items-center justify-center gap-1 rounded-lg px-3 py-2 text-xs font-semibold text-[#284b63] dark:text-[#d9d9d9] bg-[#284b63]/10 hover:bg-[#284b63]/20 transition-all">
-                ✏️ Editar
+               class="<?= $row['estado'] !== 'activo' && !empty($row['usuario_id']) ? '' : 'hidden' ?> inline-flex items-center justify-center gap-1 rounded-lg px-3 py-2 text-xs font-semibold text-[#26263A] dark:text-[#DCDCEC] bg-[#26263A]/10 hover:bg-[#26263A]/20 transition-all">
+                ✏️
             </a>
-            <button type="button" class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-[#284b63]/10 hover:bg-[#284b63]/20 text-[#284b63] dark:text-[#d9d9d9] transition-all border-none cursor-pointer" onclick="mostrarQR('<?= e(app_url('index.php?r=qr_png&id=' . (int) $row['id'])) ?>', '<?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?>')" title="Ver QR">
+            <button type="button" class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-[#26263A]/10 hover:bg-[#26263A]/20 text-[#26263A] dark:text-[#DCDCEC] transition-all border-none cursor-pointer" onclick="mostrarQR('<?= e(app_url('index.php?r=qr_png&id=' . (int) $row['id'])) ?>', '<?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?>')" title="Ver QR">
                 📱
             </button>
             <button type="button"
@@ -227,7 +250,7 @@ ob_start();
     </div>
     <?php endforeach; ?>
     <?php if (!count($rows)): ?>
-    <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-8 text-center shadow-sm">
+    <div class="rounded-xl border border-slate-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-8 text-center shadow-sm">
         <span class="text-4xl block mb-2">📭</span>
         <p class="text-slate-400 font-medium text-sm">No se encontraron practicantes</p>
     </div>
@@ -236,19 +259,71 @@ ob_start();
 
 <!-- ═══ RESULT COUNT ══════════════════════════════════════════ -->
 <?php if ($totalCount > 0): ?>
-<div class="mt-4 text-center text-xs text-slate-400 dark:text-slate-500">
-    Mostrando <strong class="text-slate-600 dark:text-slate-300"><?= $totalCount ?></strong> practicante(s)
+<div class="mt-4 text-center text-xs text-slate-400 dark:text-stone-500">
+    Mostrando <strong class="text-slate-600 dark:text-stone-300"><?= $totalCount ?></strong> practicante(s)
 </div>
 <?php endif; ?>
 
+<!-- Hidden form para reactivar practicante -->
+<form id="formReactivar" method="post" action="<?= e(app_url('index.php?r=usuario_reactivar&_csrf=' . urlencode(csrf_token()))) ?>" style="display:none">
+    <?= csrf_field() ?>
+    <input type="hidden" name="id" id="reactivarId" value="">
+    <input type="hidden" name="fecha_inicio" id="reactivarFechaInicio" value="">
+    <input type="hidden" name="fecha_fin" id="reactivarFechaFin" value="">
+</form>
+
 <script>
+function abrirModalReactivar(id, nombre, fechaInicio, fechaFin) {
+    const isDark = document.documentElement.classList.contains('dark');
+    const today = new Date().toISOString().split('T')[0];
+    Swal.fire({
+        title: '🔄 Reactivar practicante',
+        html: `
+            <p class="text-sm text-slate-500 mb-4">Para reactivar a <strong>${nombre}</strong>, actualiza las fechas de sus prácticas.</p>
+            <div class="text-left space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold mb-1" style="color:${isDark?'#c4bfe0':'#475569'}">📅 Fecha de inicio</label>
+                    <input type="date" id="swal_fecha_inicio" value="${fechaInicio || today}"
+                           style="width:100%;border-radius:10px;border:1px solid ${isDark?'#2e2842':'#cbd5e1'};background:${isDark?'#1e1b2e':'#fff'};color:${isDark?'#e8e5f0':'#1e293b'};padding:8px 12px;font-size:13px;outline:none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1" style="color:${isDark?'#c4bfe0':'#475569'}">📅 Fecha de fin</label>
+                    <input type="date" id="swal_fecha_fin" value="${fechaFin || ''}"
+                           style="width:100%;border-radius:10px;border:1px solid ${isDark?'#2e2842':'#cbd5e1'};background:${isDark?'#1e1b2e':'#fff'};color:${isDark?'#e8e5f0':'#1e293b'};padding:8px 12px;font-size:13px;outline:none">
+                </div>
+            </div>`,
+        showCancelButton: true,
+        confirmButtonColor: '#7A7AA3',
+        cancelButtonColor: '#94a3b8',
+        confirmButtonText: '✅ Reactivar',
+        cancelButtonText: 'Cancelar',
+        background: isDark ? '#231f33' : '#ffffff',
+        color: isDark ? '#e8e5f0' : '#26263A',
+        customClass: { popup: 'rounded-2xl border shadow-xl', confirmButton: 'rounded-xl font-semibold px-5', cancelButton: 'rounded-xl font-semibold px-5' },
+        preConfirm: () => {
+            const fi = document.getElementById('swal_fecha_inicio').value;
+            const ff = document.getElementById('swal_fecha_fin').value;
+            if (!fi || !ff) { Swal.showValidationMessage('⚠️ Completa ambas fechas'); return false; }
+            if (fi >= ff) { Swal.showValidationMessage('⚠️ La fecha de inicio debe ser anterior al fin'); return false; }
+            return { fi, ff };
+        }
+    }).then(result => {
+        if (result.isConfirmed && result.value) {
+            document.getElementById('reactivarId').value = id;
+            document.getElementById('reactivarFechaInicio').value = result.value.fi;
+            document.getElementById('reactivarFechaFin').value = result.value.ff;
+            document.getElementById('formReactivar').submit();
+        }
+    });
+}
+
 function confirmarEliminarListado(event, nombre, deleteUrl) {
     event.preventDefault();
     const isDark = document.documentElement.classList.contains('dark');
     
     Swal.fire({
         title: '¿Estás seguro?',
-        html: `¿Deseas eliminar al practicante <strong class="text-[#284b63] dark:text-[#3c6e71]">${nombre}</strong>?<br><span class="text-xs text-red-500 font-medium mt-1 block">Se borrará completamente de la base de datos junto con sus asistencias y cuenta vinculada.</span>`,
+        html: `¿Deseas eliminar al practicante <strong class="text-[#26263A] dark:text-[#7A7AA3]">${nombre}</strong>?<br><span class="text-xs text-red-500 font-medium mt-1 block">Se borrará completamente de la base de datos junto con sus asistencias y cuenta vinculada.</span>`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#ef4444',
@@ -259,7 +334,7 @@ function confirmarEliminarListado(event, nombre, deleteUrl) {
         color: isDark ? '#f1f5f9' : '#0f172a',
         iconColor: '#ef4444',
         customClass: {
-            popup: 'rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl'
+            popup: 'rounded-2xl border border-slate-200 dark:border-stone-800 shadow-xl'
         }
     }).then((result) => {
         if (result.isConfirmed) {
@@ -276,7 +351,7 @@ function mostrarQR(qrUrl, nombre) {
         html: `
             <div style="text-align:center;">
                 <div style="margin-bottom:12px;">
-                    <span style="display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#284b63,#3c6e71);margin-bottom:8px;">
+                    <span style="display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#26263A,#7A7AA3);margin-bottom:8px;">
                         <span style="font-size:24px;">📱</span>
                     </span>
                     <h3 style="font-size:18px;font-weight:800;color:${isDark ? '#f1f5f9' : '#0f172a'};margin:4px 0 2px;">Código QR</h3>
@@ -286,7 +361,7 @@ function mostrarQR(qrUrl, nombre) {
                     <img src="${qrUrl}" alt="QR de ${nombre}" style="width:220px;height:220px;display:block;image-rendering:pixelated;" />
                 </div>
                 <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;">
-                    <a href="${qrUrl}" download class="swal2-confirm swal2-styled" style="background:linear-gradient(135deg,#284b63,#3c6e71);border-radius:10px;font-size:13px;padding:8px 20px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+                    <a href="${qrUrl}" download class="swal2-confirm swal2-styled" style="background:linear-gradient(135deg,#26263A,#7A7AA3);border-radius:10px;font-size:13px;padding:8px 20px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
                         ⬇️ Descargar
                     </a>
                     <button onclick="window.open('${qrUrl}','_blank')" class="swal2-cancel swal2-styled" style="background:transparent;border:1.5px solid ${isDark ? '#334155' : '#cbd5e1'};color:${isDark ? '#94a3b8' : '#64748b'};border-radius:10px;font-size:13px;padding:8px 20px;font-weight:600;">
@@ -301,7 +376,7 @@ function mostrarQR(qrUrl, nombre) {
         color: isDark ? '#f1f5f9' : '#0f172a',
         width: 380,
         customClass: {
-            popup: 'rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl',
+            popup: 'rounded-2xl border border-slate-200 dark:border-stone-800 shadow-2xl',
             closeButton: 'text-slate-400 hover:text-slate-600'
         },
         backdrop: `rgba(0,0,0,${isDark ? '0.7' : '0.4'})`

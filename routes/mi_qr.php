@@ -27,7 +27,7 @@ ob_start();
     <!-- Header card -->
     <div class="rounded-2xl overflow-hidden shadow-sky">
         <div class="px-6 py-5 text-center"
-             style="background: linear-gradient(135deg, #353535 0%, #284b63 100%);">
+             style="background: linear-gradient(135deg, #26263A 0%, #26263A 100%);">
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-3"
                  style="background:rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);">
                 <span class="text-3xl">📱</span>
@@ -50,7 +50,7 @@ ob_start();
                  id="qrImage">
         </div>
         <div class="space-y-2 w-full">
-            <p class="text-sm text-slate-500 dark:text-slate-400">
+            <p class="text-sm text-slate-500 dark:text-stone-400">
                 Muestre este código frente al <strong>escáner QR</strong> para registrar su asistencia automáticamente.
             </p>
             <a href="<?= e($qr_url) ?>"
@@ -66,18 +66,18 @@ ob_start();
 
     <!-- Instructions -->
     <div class="ui-panel p-5 space-y-3">
-        <h3 class="font-bold text-slate-700 dark:text-slate-200 text-sm">¿Cómo usar tu QR?</h3>
-        <ol class="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+        <h3 class="font-bold text-slate-700 dark:text-stone-200 text-sm">¿Cómo usar tu QR?</h3>
+        <ol class="space-y-2 text-sm text-slate-500 dark:text-stone-400">
             <li class="flex items-start gap-2">
-                <span class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:#284b63;">1</span>
+                <span class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:#26263A;">1</span>
                 Abre esta página en tu celular o imprime el código.
             </li>
             <li class="flex items-start gap-2">
-                <span class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:#284b63;">2</span>
+                <span class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:#26263A;">2</span>
                 Acércalo al escáner QR al momento de entrar o salir.
             </li>
             <li class="flex items-start gap-2">
-                <span class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:#284b63;">3</span>
+                <span class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:#26263A;">3</span>
                 El sistema registrará tu asistencia en tiempo real.
             </li>
         </ol>

@@ -45,7 +45,7 @@ ob_start();
 
 <!-- ══ TOP PROFILE BANNER ════════════════════════════════════════════════════ -->
 <div class="rounded-2xl overflow-hidden mb-6 shadow-sky"
-     style="background: linear-gradient(135deg, #353535 0%, #284b63 60%, #3c6e71 100%);">
+     style="background: linear-gradient(135deg, #26263A 0%, #26263A 60%, #7A7AA3 100%);">
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 px-4 sm:px-6 py-5 sm:py-6">
         <div class="shrink-0 h-16 w-16 sm:h-20 sm:w-20 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl font-bold text-white shadow-md"
              style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);">
@@ -104,11 +104,11 @@ ob_start();
     <a href="<?= e(app_url('index.php?r=mi_qr')) ?>"
        class="group ui-panel p-5 flex items-center gap-4 hover:border-pisco-sky transition-all duration-200 hover:shadow-sky no-underline">
         <div class="shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform"
-             style="background: linear-gradient(135deg,#353535,#284b63);">
+             style="background: linear-gradient(135deg,#26263A,#26263A);">
             📱
         </div>
         <div>
-            <p class="font-bold text-slate-700 dark:text-slate-200">Mi Código QR</p>
+            <p class="font-bold text-slate-700 dark:text-stone-200">Mi Código QR</p>
             <p class="text-xs text-slate-400 mt-0.5">Ver, descargar e imprimir tu código</p>
         </div>
         <span class="ml-auto text-pisco-sky text-lg group-hover:translate-x-1 transition-transform">→</span>
@@ -120,12 +120,12 @@ ob_start();
 
 <!-- ══ HISTORIAL ══════════════════════════════════════════════════════════════ -->
 <div class="ui-panel overflow-hidden">
-    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-700">
-        <h3 class="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-stone-700">
+        <h3 class="font-bold text-slate-700 dark:text-stone-200 flex items-center gap-2">
             <span>📋</span> Historial de Asistencias
         </h3>
         <span class="text-xs font-semibold px-2.5 py-1 rounded-full"
-              style="background:rgba(70,129,137,0.12); color:#284b63;">Últimas 30</span>
+              style="background:rgba(70,129,137,0.12); color:#26263A;">Últimas 30</span>
     </div>
     <div class="overflow-x-auto">
         <table class="ui-table-left">

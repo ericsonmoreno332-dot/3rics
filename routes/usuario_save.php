@@ -148,9 +148,17 @@ if ($rol === 'practicante') {
 $username = trim((string) ($_POST['username_admin'] ?? ''));
 $nombres  = trim((string) ($_POST['nombres'] ?? ''));
 $password = (string) ($_POST['password_admin'] ?? '');
+$dni_admin     = trim((string) ($_POST['dni_admin'] ?? ''));
+$celular_admin = trim((string) ($_POST['celular_admin'] ?? ''));
 
 if ($username === '' || $nombres === '') {
     flash('err', 'Complete los campos obligatorios');
+    flash_old();
+    redirect(app_url('index.php?r=usuario_form' . ($id ? '&id=' . $id : '')));
+}
+
+if ($rol === 'supervisor' && ($dni_admin === '' || $celular_admin === '')) {
+    flash('err', 'El DNI y celular son obligatorios para los supervisores');
     flash_old();
     redirect(app_url('index.php?r=usuario_form' . ($id ? '&id=' . $id : '')));
 }
@@ -166,11 +174,11 @@ if ($stDup->fetch()) {
 try {
     if ($id > 0) {
         if ($password !== '') {
-            $pdo->prepare("UPDATE usuarios SET username=?, nombres=?, rol=?, password=?, practicante_id=NULL, estado=? WHERE id=? AND rol IN ('admin','supervisor')")
-                ->execute([$username, $nombres, $rol, password_hash($password, PASSWORD_DEFAULT), $estado_usuario, $id]);
+            $pdo->prepare("UPDATE usuarios SET username=?, nombres=?, dni=?, celular=?, rol=?, password=?, practicante_id=NULL, estado=? WHERE id=? AND rol IN ('admin','supervisor')")
+                ->execute([$username, $nombres, $dni_admin, $celular_admin, $rol, password_hash($password, PASSWORD_DEFAULT), $estado_usuario, $id]);
         } else {
-            $pdo->prepare("UPDATE usuarios SET username=?, nombres=?, rol=?, practicante_id=NULL, estado=? WHERE id=? AND rol IN ('admin','supervisor')")
-                ->execute([$username, $nombres, $rol, $estado_usuario, $id]);
+            $pdo->prepare("UPDATE usuarios SET username=?, nombres=?, dni=?, celular=?, rol=?, practicante_id=NULL, estado=? WHERE id=? AND rol IN ('admin','supervisor')")
+                ->execute([$username, $nombres, $dni_admin, $celular_admin, $rol, $estado_usuario, $id]);
         }
     } else {
         if ($password === '') {
@@ -183,8 +191,8 @@ try {
             flash_old();
             redirect(app_url('index.php?r=usuario_form'));
         }
-        $pdo->prepare('INSERT INTO usuarios (username, password, nombres, rol, practicante_id, estado) VALUES (?,?,?,?,NULL,?)')
-            ->execute([$username, password_hash($password, PASSWORD_DEFAULT), $nombres, $rol, $estado_usuario]);
+        $pdo->prepare('INSERT INTO usuarios (username, password, nombres, dni, celular, rol, practicante_id, estado) VALUES (?,?,?,?,?,?,NULL,?)')
+            ->execute([$username, password_hash($password, PASSWORD_DEFAULT), $nombres, $dni_admin, $celular_admin, $rol, $estado_usuario]);
     }
 } catch (PDOException $e) {
     flash('err', 'No se pudo guardar el usuario');

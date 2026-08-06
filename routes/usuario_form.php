@@ -105,15 +105,15 @@ ob_start();
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 bg-pisco-sky/10 rounded-full blur-3xl pointer-events-none transition-all duration-700"></div>
         <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 bg-pisco-gold/10 rounded-full blur-3xl pointer-events-none transition-all duration-700"></div>
 
-        <div class="flex items-center gap-4 mb-8 relative z-10 border-b border-slate-100 dark:border-slate-800 pb-5">
-            <div class="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#353535] to-[#284b63] flex items-center justify-center text-white text-2xl shadow-[0_4px_20px_rgba(70,129,137,0.3)] border border-white/10 transform transition hover:scale-105">
+        <div class="flex items-center gap-4 mb-8 relative z-10 border-b border-slate-100 dark:border-stone-800 pb-5">
+            <div class="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#26263A] to-[#26263A] flex items-center justify-center text-white text-2xl shadow-[0_4px_20px_rgba(70,129,137,0.3)] border border-white/10 transform transition hover:scale-105">
                 <?= $row ? '✏️' : '✨' ?>
             </div>
             <div>
-                <h2 class="text-2xl font-display font-bold text-slate-800 dark:text-slate-100 tracking-tight">
+                <h2 class="text-2xl font-display font-bold text-slate-800 dark:text-stone-100 tracking-tight">
                     <?= $row ? 'Editar cuenta de usuario' : 'Crear nueva cuenta' ?>
                 </h2>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                <p class="text-sm text-slate-500 dark:text-stone-400 mt-1">
                     <?= $row ? 'Actualiza los permisos y datos de acceso.' : 'Configura el rol y las credenciales para el nuevo integrante.' ?>
                 </p>
             </div>
@@ -123,7 +123,7 @@ ob_start();
             <?= csrf_field() ?>
             <input type="hidden" name="id" value="<?= $row ? (int) $row['id'] : 0 ?>">
 
-            <div class="grid sm:grid-cols-2 gap-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+            <div class="grid sm:grid-cols-2 gap-4 bg-slate-50 dark:bg-stone-800/50 p-4 rounded-xl border border-slate-100 dark:border-stone-700">
                 <div>
                     <label class="ui-label text-pisco-sky dark:text-pisco-skylt flex items-center gap-2">
                         <span>🛡️</span> Rol del sistema
@@ -245,7 +245,7 @@ ob_start();
                     <svg class="eye-closed w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12c1.292 4.338 5.31 7.5 10.066 7.5.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
                 </button>
             </div>
-            <p class="text-xs mt-1.5 text-slate-400 dark:text-slate-500 flex items-center gap-1.5">🔐 Mínimo 8 caracteres, debe incluir letras y números</p>
+            <p class="text-xs mt-1.5 text-slate-400 dark:text-stone-500 flex items-center gap-1.5">🔐 Mínimo 8 caracteres, debe incluir letras y números</p>
         </div>
         <div class="mt-4" id="confirmWrap">
             <label class="ui-label">Confirmar contraseña <?= $row ? '<span class="ui-hint">(si cambias la contraseña)</span>' : '<span class="ui-required">*</span>' ?></label>
@@ -264,10 +264,18 @@ ob_start();
 
     <!-- ══ BLOQUE ADMIN / SUPERVISOR ══ -->
     <div id="adminWrap" class="mt-4">
-        <div class="grid sm:grid-cols-2 gap-5 p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-md">
+        <div class="grid sm:grid-cols-2 gap-5 p-5 rounded-xl border border-slate-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-sm transition-all hover:shadow-md">
             <div class="sm:col-span-2">
                 <label class="ui-label flex items-center gap-2"><span>👤</span> Nombres completos</label>
                 <input name="nombres" id="inputNombresAdmin" value="<?= e($has_old ? $old_nombres_admin : (($row && $row['rol'] !== 'practicante') ? $row['nombres'] : '')) ?>" class="ui-field shadow-sm" placeholder="Ej. Juan Pérez">
+            </div>
+            <div>
+                <label class="ui-label flex items-center gap-2"><span>🪪</span> DNI</label>
+                <input name="dni_admin" id="inputDniAdmin" value="<?= e($has_old ? (old('dni_admin') ?? '') : (($row && $row['rol'] !== 'practicante') ? ($row['dni'] ?? '') : '')) ?>" class="ui-field shadow-sm" placeholder="Ej. 12345678" maxlength="8">
+            </div>
+            <div>
+                <label class="ui-label flex items-center gap-2"><span>📱</span> Celular</label>
+                <input name="celular_admin" id="inputCelularAdmin" value="<?= e($has_old ? (old('celular_admin') ?? '') : (($row && $row['rol'] !== 'practicante') ? ($row['celular'] ?? '') : '')) ?>" class="ui-field shadow-sm" placeholder="Ej. 987654321">
             </div>
             <div>
                 <label class="ui-label flex items-center gap-2"><span>🔑</span> Usuario</label>
@@ -282,12 +290,12 @@ ob_start();
                         <svg class="eye-closed w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12c1.292 4.338 5.31 7.5 10.066 7.5.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
                     </button>
                 </div>
-                <p class="text-xs mt-1.5 text-slate-400 dark:text-slate-500 flex items-center gap-1.5">🔐 Mínimo 8 caracteres, debe incluir letras y números</p>
+                <p class="text-xs mt-1.5 text-slate-400 dark:text-stone-500 flex items-center gap-1.5">🔐 Mínimo 8 caracteres, debe incluir letras y números</p>
             </div>
         </div>
     </div>
 
-    <div class="flex items-center gap-3 pt-6 mt-6 border-t border-slate-200 dark:border-slate-700 relative z-10">
+    <div class="flex items-center gap-3 pt-6 mt-6 border-t border-slate-200 dark:border-stone-700 relative z-10">
         <button type="submit" id="btnGuardar" class="ui-btn-primary-wide shadow-lg hover:shadow-pisco-sky/30">
             <span>💾</span> Guardar Cambios
         </button>
