@@ -56,7 +56,7 @@ ob_start();
         <input type="hidden" name="r" value="usuarios">
         <div class="relative flex-1">
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">🔍</span>
-            <input type="search" name="q" value="<?= e($q) ?>" placeholder="Buscar por usuario o nombres…"
+            <input type="search" name="q" value="<?= e($q) ?>" placeholder="Buscar por usuario o nombres…" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ]/g, '')"
                    class="w-full pl-9 pr-4 py-3 rounded-xl border border-slate-300 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#26263A]/30 focus:border-[#26263A] shadow-sm transition-all">
         </div>
         <button type="submit" class="ui-btn-primary px-6">Buscar</button>
@@ -217,7 +217,7 @@ function abrirModalReactivar(id, nombre, fechaInicio, fechaFin) {
             <div class="text-left space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">📅 Fecha de inicio de prácticas</label>
-                    <input type="date" id="swal_fecha_inicio" value="${fechaInicio || today}"
+                    <input type="date" id="swal_fecha_inicio" value="${today}"
                            class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#7A7AA3] transition"
                            style="background: ${isDark ? '#1e1b2e' : '#fff'}; color: ${isDark ? '#e8e5f0' : '#1e293b'}; border-color: ${isDark ? '#2e2842' : '#cbd5e1'}">
                 </div>

@@ -70,7 +70,7 @@ ob_start();
         <input type="hidden" name="r" value="practicantes">
         <div class="relative flex-1">
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">🔍</span>
-            <input type="search" name="q" value="<?= e($q) ?>" placeholder="Buscar por DNI, nombre o apellido…"
+            <input type="search" name="q" value="<?= e($q) ?>" placeholder="Buscar por DNI, nombre o apellido…" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ]/g, '')"
                    class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#26263A]/30 focus:border-[#26263A] transition-all">
         </div>
         <button type="submit" class="ui-btn-primary px-5">Buscar</button>
@@ -283,7 +283,7 @@ function abrirModalReactivar(id, nombre, fechaInicio, fechaFin) {
             <div class="text-left space-y-4">
                 <div>
                     <label class="block text-xs font-semibold mb-1" style="color:${isDark?'#c4bfe0':'#475569'}">📅 Fecha de inicio</label>
-                    <input type="date" id="swal_fecha_inicio" value="${fechaInicio || today}"
+                    <input type="date" id="swal_fecha_inicio" value="${today}"
                            style="width:100%;border-radius:10px;border:1px solid ${isDark?'#2e2842':'#cbd5e1'};background:${isDark?'#1e1b2e':'#fff'};color:${isDark?'#e8e5f0':'#1e293b'};padding:8px 12px;font-size:13px;outline:none">
                 </div>
                 <div>

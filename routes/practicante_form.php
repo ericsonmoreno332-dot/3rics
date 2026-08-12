@@ -116,7 +116,7 @@ ob_start();
                     <div>
                         <label class="ui-label">DNI <span class="ui-required">*</span></label>
                         <div class="flex gap-2">
-                            <input name="dni" id="inputDni" required maxlength="8" pattern="\d{8}" value="<?= e($row['dni'] ?? '') ?>" class="ui-field font-mono" placeholder="12345678">
+                            <input name="dni" id="inputDni" required maxlength="8" pattern="\d{8}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="<?= e($row['dni'] ?? '') ?>" class="ui-field font-mono" placeholder="12345678">
                             <button type="button" id="btnConsultarDni" class="ui-btn-outline px-3" title="Consultar RENIEC">
                                 <span id="dniLoading" class="hidden">⌛</span>
                                 <span id="dniIcon">🔍</span>
@@ -133,11 +133,11 @@ ob_start();
                     </div>
                     <div>
                         <label class="ui-label">Nombres <span class="ui-required">*</span></label>
-                        <input name="nombres" id="inputNombres" required value="<?= e($row['nombres'] ?? '') ?>" class="ui-field" placeholder="Nombres del practicante">
+                        <input name="nombres" id="inputNombres" required readonly value="<?= e($row['nombres'] ?? '') ?>" class="ui-field bg-slate-50 dark:bg-stone-800/50 cursor-not-allowed" placeholder="Se llena con el DNI">
                     </div>
                     <div>
                         <label class="ui-label">Apellidos <span class="ui-required">*</span></label>
-                        <input name="apellidos" id="inputApellidos" required value="<?= e($row['apellidos'] ?? '') ?>" class="ui-field" placeholder="Apellidos del practicante">
+                        <input name="apellidos" id="inputApellidos" required readonly value="<?= e($row['apellidos'] ?? '') ?>" class="ui-field bg-slate-50 dark:bg-stone-800/50 cursor-not-allowed" placeholder="Se llena con el DNI">
                     </div>
                     <div class="ui-panel-highlight">
                         <span class="ui-muted-inline">Nombre completo (automático):</span>
@@ -182,11 +182,11 @@ ob_start();
                     </div>
                     <div>
                         <label class="ui-label">Correo Electrónico</label>
-                        <input type="email" name="correo" id="inputCorreo" value="<?= e($row['correo'] ?? '') ?>" class="ui-field" placeholder="ejemplo@correo.com">
+                        <input type="email" name="correo" id="inputCorreo" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-Z0-9@._-]/g, '').replace(/-{2,}/g, '-')" value="<?= e($row['correo'] ?? '') ?>" class="ui-field" placeholder="ejemplo@correo.com">
                     </div>
                     <div>
                         <label class="ui-label">Teléfono de Contacto</label>
-                        <input name="telefono" id="inputTelefono" value="<?= e($row['telefono'] ?? '') ?>" class="ui-field" placeholder="999999999">
+                        <input name="telefono" id="inputTelefono" maxlength="9" pattern="\d{9}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="<?= e($row['telefono'] ?? '') ?>" class="ui-field" placeholder="999999999">
                     </div>
                 </div>
 

@@ -52,7 +52,7 @@ ob_start();
         <form method="post" class="flex gap-2 mb-6">
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="add_area">
-            <input name="nombre_area" placeholder="Nueva área" class="ui-field-grow">
+            <input name="nombre_area" placeholder="Nueva área" maxlength="80" oninput="this.value = this.value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ .,-]/g, '')" class="ui-field-grow" required>
             <button type="submit" class="ui-btn-primary-soft">Añadir</button>
         </form>
         <ul class="ui-divider-list">
@@ -81,7 +81,7 @@ ob_start();
         <form method="post" class="space-y-2 mb-6">
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="add_inst">
-            <input name="nombre_inst" placeholder="Nombre" class="ui-field">
+            <input name="nombre_inst" placeholder="Nombre" maxlength="80" oninput="this.value = this.value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ .,-]/g, '')" class="ui-field" required>
             <select name="tipo_inst" class="ui-field">
                 <option value="universidad">Universidad</option>
                 <option value="instituto">Instituto</option>

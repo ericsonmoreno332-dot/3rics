@@ -52,8 +52,6 @@ ob_start();
 
                 <form method="post" action="<?= e($urlEntrada) ?>" id="formDniEntrada" class="space-y-5">
                     <?= csrf_field() ?>
-                    <input type="hidden" name="ajax_lat" id="lat_e" value="">
-                    <input type="hidden" name="ajax_lng" id="lng_e" value="">
                     
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 dark:text-stone-300 mb-1.5">DNI (8 dígitos)</label>
@@ -69,11 +67,6 @@ ob_start();
                         <textarea name="observacion" rows="2" placeholder="Notas sobre el registro..." 
                                   class="w-full rounded-xl border border-slate-300 dark:border-stone-600 bg-transparent px-4 py-2.5 text-sm text-slate-800 dark:text-stone-200 focus:outline-none focus:border-[#26263A] focus:ring-1 focus:ring-[#26263A] transition-all"></textarea>
                     </div>
-
-                    <label class="flex items-center gap-2 cursor-pointer select-none">
-                        <input type="checkbox" name="usar_geo" value="1" id="chkGeoE" class="rounded border-slate-400 dark:border-stone-600 text-[#26263A] bg-transparent focus:ring-[#26263A] focus:ring-offset-0">
-                        <span class="text-xs text-slate-600 dark:text-stone-400 flex items-center gap-1.5"><span class="text-[#7A7AA3]">📍</span> Incluir geolocalización</span>
-                    </label>
 
                     <div class="flex flex-col sm:flex-row gap-3 pt-2">
                         <button type="submit" name="accion" value="entrada" class="flex-1 inline-flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white transition-all hover:brightness-110 active:scale-[0.98]" style="background: linear-gradient(135deg, #26263A, #7A7AA3);">
@@ -160,6 +153,28 @@ ob_start();
   10% { opacity: 1; }
   90% { opacity: 1; }
   100% { top: 100%; opacity: 0; }
+}
+/* Fix black borders from html5-qrcode */
+#reader {
+    overflow: hidden !important;
+    border: none !important;
+}
+#reader video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+}
+#reader img {
+    display: none !important;
+}
+#reader div {
+    border: none !important;
+}
+#qr-shaded-region {
+    display: none !important;
 }
 </style>
 
@@ -273,37 +288,45 @@ function initScanner() {
     });
 }
 
-// Geolocation logic for Manual mode
-const form = document.getElementById('formDniEntrada');
-form?.addEventListener('submit', function(ev) {
-    const chk = document.getElementById('chkGeoE');
-    if (!chk?.checked) return;
-    ev.preventDefault();
-    if (!navigator.geolocation) { form.submit(); return; }
-    
-    const btn = ev.submitter;
-    const originalText = btn.innerHTML;
-    btn.innerHTML = 'Obteniendo GPS...';
-    btn.disabled = true;
+// Soporte para escáner físico USB en cualquier parte de la pantalla
+let usbScannerBuffer = "";
+let usbScannerTimer = null;
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') return;
 
-    navigator.geolocation.getCurrentPosition(function(pos) {
-        document.getElementById('lat_e').value = pos.coords.latitude;
-        document.getElementById('lng_e').value = pos.coords.longitude;
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'accion';
-        input.value = btn.value;
-        form.appendChild(input);
-        form.submit();
-    }, function() { 
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'accion';
-        input.value = btn.value;
-        form.appendChild(input);
-        form.submit(); 
-    }, { enableHighAccuracy: true, timeout: 8000 });
+    if (e.key === 'Enter') {
+        if (usbScannerBuffer.startsWith('REGIS|')) {
+            e.preventDefault();
+            const dni = parsePayload(usbScannerBuffer);
+            if (dni.length === 8) {
+                if (isProcessing) return; // Evitar múltiples escaneos
+                isProcessing = true;
+                
+                syncFormAction();
+                setStatus('¡Código capturado por escáner físico! Registrando en 3 segundos...', 'success');
+                dniInput.value = dni;
+                
+                setTimeout(() => {
+                    // Detener la cámara web si estaba encendida
+                    if (html5QrCode && html5QrCode.isScanning) {
+                        html5QrCode.stop().then(() => formQr.submit()).catch(() => formQr.submit());
+                    } else {
+                        formQr.submit();
+                    }
+                }, 3000); // 3 segundos de delay preventivo
+            }
+        }
+        usbScannerBuffer = "";
+        return;
+    }
+
+    usbScannerBuffer += e.key;
+    clearTimeout(usbScannerTimer);
+    usbScannerTimer = setTimeout(() => {
+        usbScannerBuffer = "";
+    }, 50); // Un escáner USB escribe extremadamente rápido, mucho menos de 50ms por tecla
 });
+
 </script>
 
 <?php

@@ -152,11 +152,9 @@ ob_start();
 <!-- ═══ ACCESOS RÁPIDOS ════════════════════════════════════ -->
 <div class="mb-6 ui-animate-entry delay-200">
     <h2 class="font-display text-lg font-bold text-slate-800 dark:text-stone-200 mb-4">Accesos rápidos</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <?php
         $accesos = [
-            ['Asistencia', 'Registrar ingreso de practicantes', 'asistencia', 'Registrar', '#26263A', '#7A7AA3', '📋'],
-            ['Escáner QR', 'Escanear código QR de practicantes', 'escaner', 'Escanear', '#3b82f6', '#60a5fa', '📷'],
             ['Practicantes', 'Gestionar perfiles y asignaciones', 'practicantes', 'Gestionar', '#10b981', '#34d399', '👤'],
             ['Reportes', 'Generar reportes en PDF / Excel', 'reportes', 'Generar', '#f59e0b', '#fbbf24', '📄'],
         ];

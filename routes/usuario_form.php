@@ -156,9 +156,9 @@ ob_start();
                 <div>
                     <label class="ui-label">DNI <span class="ui-required">*</span></label>
                     <div class="flex gap-2">
-                        <input name="dni" id="inputDni" maxlength="8" pattern="\d{8}"
+                        <input name="dni" id="inputDni" maxlength="8" pattern="\d{8}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                value="<?= e($pract_row['dni'] ?? '') ?>"
-                               class="ui-field" placeholder="12345678"
+                               class="ui-field font-mono" placeholder="12345678"
                                <?= (!$row || $row['rol'] === 'practicante') ? '' : '' ?>>
                         <button type="button" id="btnConsultarDni" class="ui-btn-primary-soft shrink-0 px-3" title="Consultar RENIEC">
                             <span id="dniIcon">🔍</span>
@@ -177,11 +177,11 @@ ob_start();
                 </div>
                 <div>
                     <label class="ui-label">Nombres <span class="ui-required">*</span></label>
-                    <input name="nombres_pract" id="inputNombresPract" value="<?= e($pract_row['nombres'] ?? '') ?>" class="ui-field">
+                    <input name="nombres_pract" id="inputNombresPract" readonly value="<?= e($pract_row['nombres'] ?? '') ?>" class="ui-field bg-slate-50 dark:bg-stone-800/50 cursor-not-allowed" placeholder="Se llena con el DNI">
                 </div>
                 <div>
                     <label class="ui-label">Apellidos <span class="ui-required">*</span></label>
-                    <input name="apellidos" id="inputApellidos" value="<?= e($pract_row['apellidos'] ?? '') ?>" class="ui-field">
+                    <input name="apellidos" id="inputApellidos" readonly value="<?= e($pract_row['apellidos'] ?? '') ?>" class="ui-field bg-slate-50 dark:bg-stone-800/50 cursor-not-allowed" placeholder="Se llena con el DNI">
                 </div>
                 <div class="sm:col-span-2">
                     <label class="ui-label">Carrera profesional <span class="ui-required">*</span></label>
@@ -222,11 +222,11 @@ ob_start();
                 </div>
                 <div>
                     <label class="ui-label">Correo</label>
-                    <input type="email" name="correo" value="<?= e($pract_row['correo'] ?? '') ?>" class="ui-field">
+                    <input type="email" name="correo" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-Z0-9@._-]/g, '').replace(/-{2,}/g, '-')" value="<?= e($pract_row['correo'] ?? '') ?>" class="ui-field" placeholder="ejemplo@correo.com">
                 </div>
                 <div>
                     <label class="ui-label">Teléfono</label>
-                    <input name="telefono" value="<?= e($pract_row['telefono'] ?? '') ?>" class="ui-field">
+                    <input name="telefono" maxlength="9" pattern="\d{9}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="<?= e($pract_row['telefono'] ?? '') ?>" class="ui-field" placeholder="999999999">
                 </div>
             </div>
         </div>
@@ -234,7 +234,7 @@ ob_start();
         <!-- Nombre de usuario para practicante -->
         <div class="mt-4">
             <label class="ui-label">Nombre de la cuenta (usuario) <span class="ui-required">*</span></label>
-            <input name="username" id="inputUsername" value="<?= e($has_old ? $old_username : ($row['username'] ?? '')) ?>" class="ui-field-mono" autocomplete="off" placeholder="ej: 12345678">
+            <input name="username" id="inputUsername" readonly value="<?= e($has_old ? $old_username : ($row['username'] ?? '')) ?>" class="ui-field-mono bg-slate-50 dark:bg-stone-800/50 cursor-not-allowed" autocomplete="off" placeholder="Se llena con el DNI">
         </div>
         <div class="mt-4">
             <label class="ui-label">Contraseña <?= $row ? '<span class="ui-hint">(vacío = no cambiar)</span>' : '<span class="ui-required">*</span>' ?></label>

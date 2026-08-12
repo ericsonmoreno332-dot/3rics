@@ -120,10 +120,10 @@ ob_start();
                 </div>
             </div>
 
-            <h1 class="font-display font-bold text-3xl leading-tight mb-2" style="color:#26263A;" class="dark:text-white">
+            <h1 class="font-display font-bold text-3xl leading-tight mb-2 text-[#26263A] dark:text-white">
                 ¡Bienvenido!
             </h1>
-            <p class="text-sm mb-6" style="color:#26263A;">
+            <p class="text-sm mb-6 text-slate-600 dark:text-stone-300">
                 Control de asistencia de practicantes. Ingresa tus credenciales para acceder.
             </p>
 

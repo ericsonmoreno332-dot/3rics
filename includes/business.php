@@ -221,3 +221,151 @@ function column_exists(PDO $pdo, string $table, string $column): bool
     $cache[$key] = (bool) $st->fetchColumn();
     return $cache[$key];
 }
+
+// ═══════════════════════════════════════════════════════════════
+// Solicitudes de salida pendiente
+// ═══════════════════════════════════════════════════════════════
+
+/** Crear solicitud de salida (practicante propone hora) */
+function crear_solicitud_salida(PDO $pdo, int $practicanteId, int $asistenciaId, string $horaPropuesta): array
+{
+    // Verificar que la asistencia existe, pertenece al practicante y es de un día anterior sin salida
+    $st = $pdo->prepare(
+        "SELECT id, hora_entrada FROM asistencias WHERE id = ? AND practicante_id = ? AND hora_salida IS NULL AND fecha < CURDATE() LIMIT 1"
+    );
+    $st->execute([$asistenciaId, $practicanteId]);
+    $abierta = $st->fetch();
+
+    if (!$abierta) {
+        return ['ok' => false, 'msg' => 'Asistencia inválida o no corresponde a un día anterior.'];
+    }
+
+    if ($horaPropuesta < substr((string)$abierta['hora_entrada'], 0, 5)) {
+        return ['ok' => false, 'msg' => 'La hora de salida (' . substr((string)$horaPropuesta, 0, 5) . ') no puede ser anterior a la hora de entrada (' . substr((string)$abierta['hora_entrada'], 0, 5) . ').'];
+    }
+
+    // Check if already has a pending solicitud for this asistencia
+    $st = $pdo->prepare(
+        'SELECT id FROM solicitudes_salida WHERE asistencia_id = ? AND estado = ? LIMIT 1'
+    );
+    $st->execute([$abierta['id'], 'pendiente']);
+    if ($st->fetchColumn()) {
+        return ['ok' => false, 'msg' => 'Ya tienes una solicitud pendiente para esta asistencia.'];
+    }
+
+    // Invalidate any previous rejected solicitud for this asistencia
+    $pdo->prepare(
+        "UPDATE solicitudes_salida SET estado = 'rechazada' WHERE asistencia_id = ? AND estado = 'rechazada'"
+    )->execute([$abierta['id']]);
+
+    $pdo->prepare(
+        'INSERT INTO solicitudes_salida (asistencia_id, practicante_id, hora_propuesta, estado) VALUES (?, ?, ?, ?)'
+    )->execute([$abierta['id'], $practicanteId, $horaPropuesta, 'pendiente']);
+
+    return ['ok' => true, 'msg' => 'Solicitud enviada. El administrador revisará tu hora de salida.'];
+}
+
+/** Contar solicitudes pendientes (para badge) */
+function contar_solicitudes_pendientes(PDO $pdo): int
+{
+    $st = $pdo->query("SELECT COUNT(*) FROM solicitudes_salida WHERE estado = 'pendiente'");
+    return (int) $st->fetchColumn();
+}
+
+/** Listar solicitudes pendientes con datos del practicante */
+function solicitudes_pendientes(PDO $pdo): array
+{
+    $st = $pdo->query(
+        "SELECT s.*, a.fecha, a.hora_entrada,
+                p.nombres, p.apellidos, p.dni
+         FROM solicitudes_salida s
+         JOIN asistencias a ON a.id = s.asistencia_id
+         JOIN practicantes p ON p.id = s.practicante_id
+         WHERE s.estado = 'pendiente'
+         ORDER BY s.created_at ASC"
+    );
+    return $st->fetchAll();
+}
+
+/** Listar todas las solicitudes (historial) */
+function solicitudes_historial(PDO $pdo, int $limit = 50): array
+{
+    $limit = (int) $limit;
+    $st = $pdo->prepare(
+        "SELECT s.*, a.fecha, a.hora_entrada,
+                p.nombres, p.apellidos, p.dni
+         FROM solicitudes_salida s
+         JOIN asistencias a ON a.id = s.asistencia_id
+         JOIN practicantes p ON p.id = s.practicante_id
+         ORDER BY s.created_at DESC
+         LIMIT $limit"
+    );
+    $st->execute();
+    return $st->fetchAll();
+}
+
+/** Aceptar solicitud: registra la hora propuesta como hora_salida en asistencias */
+function aceptar_solicitud(PDO $pdo, int $solicitudId): array
+{
+    $st = $pdo->prepare('SELECT * FROM solicitudes_salida WHERE id = ? LIMIT 1');
+    $st->execute([$solicitudId]);
+    $sol = $st->fetch();
+
+    if (!$sol) {
+        return ['ok' => false, 'msg' => 'Solicitud no encontrada.'];
+    }
+    if ($sol['estado'] !== 'pendiente') {
+        return ['ok' => false, 'msg' => 'Esta solicitud ya fue procesada.'];
+    }
+
+    // Update asistencia with the proposed exit time
+    $pdo->prepare(
+        'UPDATE asistencias SET hora_salida = ?, metodo_salida = ? WHERE id = ?'
+    )->execute([$sol['hora_propuesta'], 'manual', $sol['asistencia_id']]);
+
+    // Mark solicitud as accepted
+    $pdo->prepare(
+        "UPDATE solicitudes_salida SET estado = 'aceptada' WHERE id = ?"
+    )->execute([$solicitudId]);
+
+    return ['ok' => true, 'msg' => 'Solicitud aceptada. Salida registrada.'];
+}
+
+/** Rechazar solicitud */
+function rechazar_solicitud(PDO $pdo, int $solicitudId, ?string $mensaje): array
+{
+    $st = $pdo->prepare('SELECT * FROM solicitudes_salida WHERE id = ? LIMIT 1');
+    $st->execute([$solicitudId]);
+    $sol = $st->fetch();
+
+    if (!$sol) {
+        return ['ok' => false, 'msg' => 'Solicitud no encontrada.'];
+    }
+    if ($sol['estado'] !== 'pendiente') {
+        return ['ok' => false, 'msg' => 'Esta solicitud ya fue procesada.'];
+    }
+
+    $pdo->prepare(
+        "UPDATE solicitudes_salida SET estado = 'rechazada', mensaje_rechazo = ? WHERE id = ?"
+    )->execute([$mensaje, $solicitudId]);
+
+    return ['ok' => true, 'msg' => 'Solicitud rechazada.'];
+}
+
+/** Obtener asistencias de días anteriores que no tienen salida, junto con su solicitud activa (pendiente/rechazada) */
+function obtener_asistencias_abiertas_pasadas(PDO $pdo, int $practicanteId): array
+{
+    $st = $pdo->prepare(
+        "SELECT a.id as asistencia_id, a.fecha, a.hora_entrada,
+                s.id as solicitud_id, s.estado as solicitud_estado, s.hora_propuesta, s.mensaje_rechazo
+         FROM asistencias a
+         LEFT JOIN solicitudes_salida s ON s.asistencia_id = a.id AND s.estado IN ('pendiente', 'rechazada')
+         WHERE a.practicante_id = ? 
+           AND a.hora_salida IS NULL 
+           AND a.hora_entrada IS NOT NULL
+           AND a.fecha < CURDATE()
+         ORDER BY a.fecha ASC"
+    );
+    $st->execute([$practicanteId]);
+    return $st->fetchAll();
+}

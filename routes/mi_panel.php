@@ -21,6 +21,8 @@ if (!$p) {
 $abierta = asistencia_abierta_hoy($pdo, $pid);
 $cerrada  = asistencia_cerrada_hoy($pdo, $pid);
 
+$asistencias_pasadas = obtener_asistencias_abiertas_pasadas($pdo, $pid);
+
 $st = $pdo->prepare(
     'SELECT * FROM asistencias WHERE practicante_id = ? ORDER BY fecha DESC, hora_entrada DESC LIMIT 30'
 );
@@ -115,6 +117,49 @@ ob_start();
     </a>
     <?php endif; ?>
 
+    <!-- Action Cards para Salidas Pasadas -->
+    <?php if (practicante_activo($p) && count($asistencias_pasadas) > 0): ?>
+        <?php foreach ($asistencias_pasadas as $pasada): ?>
+        <div class="ui-panel p-5 flex flex-col justify-center gap-2">
+            <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold px-2 py-1 bg-amber-100 text-amber-800 rounded-md">Fecha: <?= e(date('d/m/Y', strtotime((string)$pasada['fecha']))) ?></span>
+                <span class="text-[10px] uppercase text-slate-500 font-bold">Entrada: <?= e(substr((string)$pasada['hora_entrada'], 0, 5)) ?></span>
+            </div>
+            
+            <?php if ($pasada['solicitud_estado'] === 'pendiente'): ?>
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">⏳</span>
+                    <div>
+                        <p class="font-bold text-slate-700 dark:text-stone-200">Salida en revisión</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Propusiste salir a las <span class="font-bold text-amber-500"><?= e(substr((string)$pasada['hora_propuesta'], 0, 5)) ?></span></p>
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-2 p-2 bg-slate-50 dark:bg-stone-800 rounded-lg border border-slate-100 dark:border-stone-700">El administrador está revisando tu solicitud.</p>
+            <?php else: ?>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-2xl"><?= $pasada['solicitud_estado'] === 'rechazada' ? '❌' : '⚠️' ?></span>
+                    <div>
+                        <p class="font-bold text-slate-700 dark:text-stone-200"><?= $pasada['solicitud_estado'] === 'rechazada' ? 'Solicitud Rechazada' : 'Olvidaste registrar salida' ?></p>
+                        <p class="text-xs text-slate-400 mt-0.5"><?= $pasada['solicitud_estado'] === 'rechazada' ? 'Debes proponer otra hora' : 'Propón la hora en la que saliste' ?></p>
+                    </div>
+                </div>
+                
+                <?php if ($pasada['solicitud_estado'] === 'rechazada' && $pasada['mensaje_rechazo']): ?>
+                    <p class="text-xs text-red-500 mb-2 font-medium">Motivo: <?= e($pasada['mensaje_rechazo']) ?></p>
+                <?php endif; ?>
+
+                <form method="post" action="<?= e(app_url('index.php?r=solicitud_salida')) ?>" class="flex gap-2">
+                    <?= csrf_field() ?>
+                    <input type="hidden" name="asistencia_id" value="<?= (int)$pasada['asistencia_id'] ?>">
+                    <input type="time" name="hora_propuesta" required class="flex-1 rounded-xl border border-slate-300 dark:border-stone-600 bg-transparent px-3 py-2 text-sm text-slate-800 dark:text-stone-200 focus:outline-none focus:border-[#26263A] focus:ring-1 focus:ring-[#26263A] transition-all">
+                    <button type="submit" class="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold text-white transition-all hover:brightness-110 active:scale-[0.98]" style="background: linear-gradient(135deg, #26263A, #7A7AA3);">
+                        Enviar
+                    </button>
+                </form>
+            <?php endif; ?>
+        </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
 </div>
 

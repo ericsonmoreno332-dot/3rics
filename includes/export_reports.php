@@ -68,6 +68,13 @@ function try_send_pdf_report(array $rows): bool
             'margin_top' => 12,
             'margin_bottom' => 12,
         ]);
+        
+        // Protección anti-fraude
+        $mpdf->SetProtection(['print'], '', 'admin2026');
+        $mpdf->SetWatermarkText('DOCUMENTO OFICIAL');
+        $mpdf->watermark_font = 'sans-serif';
+        $mpdf->showWatermarkText = true;
+        
         $mpdf->WriteHTML($html);
         $mpdf->Output('reporte_asistencia.pdf', 'D');
     } catch (Throwable) {
@@ -92,6 +99,10 @@ function try_send_xlsx_report(array $rows): bool
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Asistencias');
+
+        // Protección anti-fraude
+        $sheet->getProtection()->setSheet(true);
+        $sheet->getProtection()->setPassword('admin2026');
 
         // Estilos de Cabecera
         $styleHeader1 = [
