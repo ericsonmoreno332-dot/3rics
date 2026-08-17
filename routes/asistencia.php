@@ -8,28 +8,39 @@ $pdo = db();
 $urlEntrada = app_url('index.php?r=asistencia_entrada');
 $urlSalida = app_url('index.php?r=asistencia_salida');
 
+$modoInit = $_GET['modo'] ?? 'manual';
+if (!in_array($modoInit, ['manual', 'qr', 'lector'], true)) {
+    $modoInit = 'manual';
+}
+
 $title = 'Registro de Asistencia';
 ob_start();
 ?>
 
 <!-- Action Toggle -->
-<div class="flex items-center p-1 bg-slate-100 dark:bg-stone-800 rounded-xl mb-8 w-full max-w-md mx-auto">
+<div class="flex items-center p-1 bg-slate-100 dark:bg-stone-800 rounded-xl mb-8 w-full max-w-lg mx-auto">
     <label class="flex-1 text-center cursor-pointer relative group">
-        <input type="radio" name="modo_registro" value="manual" checked class="peer sr-only" onchange="toggleModo()">
+        <input type="radio" name="modo_registro" value="manual" <?= ($modoInit !== 'qr' && $modoInit !== 'lector') ? 'checked' : '' ?> class="peer sr-only" onchange="toggleModo()">
         <div class="py-2.5 rounded-lg text-sm font-semibold text-slate-500 dark:text-stone-400 transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:text-[#26263A] dark:peer-checked:text-[#7A7AA3] peer-checked:shadow-sm">
             Manual (DNI)
         </div>
     </label>
     <label class="flex-1 text-center cursor-pointer relative group">
-        <input type="radio" name="modo_registro" value="qr" class="peer sr-only" onchange="toggleModo()">
+        <input type="radio" name="modo_registro" value="qr" <?= $modoInit === 'qr' ? 'checked' : '' ?> class="peer sr-only" onchange="toggleModo()">
         <div class="py-2.5 rounded-lg text-sm font-semibold text-slate-500 dark:text-stone-400 transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:text-[#26263A] dark:peer-checked:text-[#7A7AA3] peer-checked:shadow-sm">
-            Escáner QR
+            Escáner QR (Cámara)
+        </div>
+    </label>
+    <label class="flex-1 text-center cursor-pointer relative group">
+        <input type="radio" name="modo_registro" value="lector" <?= $modoInit === 'lector' ? 'checked' : '' ?> class="peer sr-only" onchange="toggleModo()">
+        <div class="py-2.5 rounded-lg text-sm font-semibold text-slate-500 dark:text-stone-400 transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:text-[#26263A] dark:peer-checked:text-[#7A7AA3] peer-checked:shadow-sm">
+            Lector QR (Físico)
         </div>
     </label>
 </div>
 
 <!-- ═══ MODO MANUAL ══════════════════════ -->
-<div id="modoManual">
+<div id="modoManual" <?= ($modoInit === 'qr' || $modoInit === 'lector') ? 'style="display: none;"' : '' ?>>
     <?php if ($user['rol'] === 'admin' || $user['rol'] === 'supervisor'): ?>
     <div class="ui-panel rounded-2xl p-6 lg:p-8 mb-6 relative overflow-hidden group max-w-3xl mx-auto">
         <!-- Glow effects behind -->
@@ -52,19 +63,20 @@ ob_start();
 
                 <form method="post" action="<?= e($urlEntrada) ?>" id="formDniEntrada" class="space-y-5">
                     <?= csrf_field() ?>
+                    <input type="hidden" name="redirect_to" value="<?= e(app_url('index.php?r=asistencia&modo=manual')) ?>">
                     
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 dark:text-stone-300 mb-1.5">DNI (8 dígitos)</label>
                         <div class="relative">
                             <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">👤</span>
-                            <input name="dni" placeholder="Ingrese el DNI" maxlength="8" pattern="\d{8}" required 
+                            <input name="dni" placeholder="Ingrese el DNI" maxlength="8" pattern="\d{8}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required 
                                    class="w-full rounded-xl border border-slate-300 dark:border-stone-600 bg-transparent pl-10 pr-4 py-2.5 text-sm text-slate-800 dark:text-stone-200 focus:outline-none focus:border-[#26263A] focus:ring-1 focus:ring-[#26263A] transition-all">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 dark:text-stone-300 mb-1.5">Observación (opcional)</label>
-                        <textarea name="observacion" rows="2" placeholder="Notas sobre el registro..." 
+                        <textarea name="observacion" rows="2" placeholder="Notas sobre el registro..." maxlength="250" 
                                   class="w-full rounded-xl border border-slate-300 dark:border-stone-600 bg-transparent px-4 py-2.5 text-sm text-slate-800 dark:text-stone-200 focus:outline-none focus:border-[#26263A] focus:ring-1 focus:ring-[#26263A] transition-all"></textarea>
                     </div>
 
@@ -89,7 +101,7 @@ ob_start();
 </div>
 
 <!-- ═══ MODO QR ══════════════════════ -->
-<div id="modoQR" style="display: none;" class="max-w-3xl mx-auto ui-animate-entry">
+<div id="modoQR" <?= $modoInit !== 'qr' ? 'style="display: none;"' : '' ?> class="max-w-3xl mx-auto ui-animate-entry">
     <div class="ui-panel rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
         <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#26263A]/10 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -128,6 +140,7 @@ ob_start();
                 <?= csrf_field() ?>
                 <input type="hidden" name="dni" id="qr_dni" value="">
                 <input type="hidden" name="metodo" value="qr">
+                <input type="hidden" name="redirect_to" value="<?= e(app_url('index.php?r=asistencia&modo=qr')) ?>">
             </form>
 
             <div class="mt-8 flex items-center gap-3 bg-slate-50 dark:bg-stone-800/50 px-5 py-3 rounded-full border border-slate-100 dark:border-stone-700">
@@ -143,6 +156,64 @@ ob_start();
             <p class="mt-4 text-[11px] text-slate-400 dark:text-stone-500 text-center">
                 El formato del código debe ser: <code class="bg-slate-100 dark:bg-stone-800 px-1 py-0.5 rounded text-slate-600 dark:text-stone-300">REGIS|12345678</code> o un DNI de 8 dígitos.
             </p>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ MODO LECTOR QR (FÍSICO) ══════════════════════ -->
+<div id="modoLector" <?= $modoInit === 'lector' ? '' : 'style="display: none;"' ?> class="max-w-3xl mx-auto ui-animate-entry">
+    <div class="ui-panel rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
+        <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#7A7AA3]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col items-center">
+            <!-- Selector de Entrada / Salida -->
+            <div class="flex items-center p-1 bg-slate-100 dark:bg-stone-800 rounded-xl mb-8 w-full max-w-sm">
+                <label class="flex-1 text-center cursor-pointer relative group">
+                    <input type="radio" name="tipo_accion_lector" value="entrada" checked class="peer sr-only">
+                    <div class="py-2.5 rounded-lg text-sm font-semibold text-slate-500 dark:text-stone-400 transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:text-[#26263A] dark:peer-checked:text-[#7A7AA3] peer-checked:shadow-sm">
+                        Registrar Entrada
+                    </div>
+                </label>
+                <label class="flex-1 text-center cursor-pointer relative group">
+                    <input type="radio" name="tipo_accion_lector" value="salida" class="peer sr-only">
+                    <div class="py-2.5 rounded-lg text-sm font-semibold text-slate-500 dark:text-stone-400 transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:text-amber-500 dark:peer-checked:text-amber-400 peer-checked:shadow-sm">
+                        Registrar Salida
+                    </div>
+                </label>
+            </div>
+
+            <!-- Graphic Icon for physical reader -->
+            <div class="relative w-full max-w-sm aspect-[4/3] mx-auto rounded-2xl flex flex-col items-center justify-center border-4 border-dashed border-[#7A7AA3]/40 bg-slate-50 dark:bg-stone-900/60 p-6 text-center">
+                <span class="text-6xl mb-4 animate-[float_3s_ease-in-out_infinite]">🔌</span>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-stone-200">Lector Físico Activo</h3>
+                <p class="text-xs text-slate-500 dark:text-stone-400 mt-2 max-w-xs">
+                    Acerque el código QR al lector. El campo se mantendrá enfocado automáticamente.
+                </p>
+                
+                <!-- Input field (focused automatically) -->
+                <div class="mt-5 w-full relative">
+                    <input id="lectorInput" type="text" autocomplete="off"
+                           class="w-full text-center font-mono font-bold tracking-widest text-lg bg-white dark:bg-stone-800 border-2 border-[#7A7AA3]/50 focus:border-[#26263A] focus:ring-4 focus:ring-[#26263A]/20 dark:text-white rounded-xl py-3 px-4 transition-all focus:outline-none"
+                           placeholder="[ LISTO PARA ESCANEAR ]">
+                    <div class="absolute right-3.5 top-1/2 -translate-y-1/2 flex h-3.5 w-3.5">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+                    </div>
+                </div>
+            </div>
+
+            <form method="post" id="formLector" action="<?= e($urlEntrada) ?>" class="hidden">
+                <?= csrf_field() ?>
+                <input type="hidden" name="dni" id="lector_dni" value="">
+                <input type="hidden" name="metodo" value="qr">
+                <input type="hidden" name="redirect_to" value="<?= e(app_url('index.php?r=asistencia&modo=lector')) ?>">
+            </form>
+
+            <div class="mt-8 flex items-center gap-3 bg-slate-50 dark:bg-stone-800/50 px-5 py-3 rounded-full border border-slate-100 dark:border-stone-700">
+                <p id="lector_status" class="text-xs font-semibold text-slate-600 dark:text-stone-300">
+                    Alineando foco del cursor...
+                </p>
+            </div>
         </div>
     </div>
 </div>
@@ -185,31 +256,133 @@ const urlSalida = <?= json_encode($urlSalida, JSON_THROW_ON_ERROR) ?>;
 
 // Toggle functionality
 let html5QrCode = null;
+let isProcessing = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Cooldown inicial de 2 segundos para evitar lecturas consecutivas accidentales
+    isProcessing = true;
+
+    const mode = document.querySelector('input[name="modo_registro"]:checked')?.value;
+    if (mode === 'qr') {
+        initScanner();
+    } else if (mode === 'lector') {
+        focusLector();
+        const statusText = document.getElementById('lector_status');
+        if (statusText) {
+            statusText.innerHTML = '<span class="text-amber-500 font-semibold">⏳ Inicializando lector (espera 2s)...</span>';
+        }
+    }
+
+    setTimeout(() => {
+        isProcessing = false;
+        const currentMode = document.querySelector('input[name="modo_registro"]:checked')?.value;
+        if (currentMode === 'lector') {
+            const statusText = document.getElementById('lector_status');
+            if (statusText) {
+                statusText.innerHTML = '<span class="text-emerald-500 font-semibold">🟢 Listo para recibir lectura del escáner</span>';
+            }
+        } else if (currentMode === 'qr') {
+            setStatus('Cámara lista, esperando código...', 'info');
+        }
+    }, 2000);
+
+    // Mantener enfoque automático en el lector si está activo
+    const lectorInput = document.getElementById('lectorInput');
+    if (lectorInput) {
+        lectorInput.addEventListener('blur', () => {
+            const currentMode = document.querySelector('input[name="modo_registro"]:checked')?.value;
+            if (currentMode === 'lector') {
+                setTimeout(() => lectorInput.focus(), 80);
+            }
+        });
+
+        // Enviar al presionar enter (el lector USB envía Enter por defecto)
+        lectorInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                processLectorInput(lectorInput.value);
+            }
+        });
+    }
+});
+
 function toggleModo() {
     const modo = document.querySelector('input[name="modo_registro"]:checked').value;
     const divManual = document.getElementById('modoManual');
     const divQR = document.getElementById('modoQR');
+    const divLector = document.getElementById('modoLector');
     
     if (modo === 'manual') {
         divManual.style.display = 'block';
         divQR.style.display = 'none';
-        if (html5QrCode) {
-            html5QrCode.stop().then(() => {
-                html5QrCode.clear();
-                html5QrCode = null;
-            }).catch(() => {});
-        }
-    } else {
+        divLector.style.display = 'none';
+        stopCamera();
+    } else if (modo === 'qr') {
         divManual.style.display = 'none';
         divQR.style.display = 'block';
+        divLector.style.display = 'none';
         initScanner();
+    } else if (modo === 'lector') {
+        divManual.style.display = 'none';
+        divQR.style.display = 'none';
+        divLector.style.display = 'block';
+        stopCamera();
+        focusLector();
+    }
+}
+
+function stopCamera() {
+    if (html5QrCode) {
+        html5QrCode.stop().then(() => {
+            html5QrCode.clear();
+            html5QrCode = null;
+        }).catch(() => {});
+    }
+}
+
+function focusLector() {
+    const input = document.getElementById('lectorInput');
+    const statusText = document.getElementById('lector_status');
+    if (input) {
+        input.focus();
+        if (statusText && !isProcessing) {
+            statusText.innerHTML = '<span class="text-emerald-500 font-semibold">🟢 Listo para recibir lectura del escáner</span>';
+        }
     }
 }
 
 function parsePayload(text) {
   const t = String(text || '').trim();
-  if (t.startsWith('REGIS|')) return t.slice(6).replace(/\D/g,'');
-  if (/^\d{8}$/.test(t)) return t;
+  
+  // 1. Si contiene "REGIS" (insensible a mayúsculas) y una secuencia de 8 dígitos
+  const regisMatch = t.match(/REGIS\D*(\d{8})/i);
+  if (regisMatch) {
+      return regisMatch[1];
+  }
+  
+  // 2. Si es solo un DNI de 8 dígitos
+  if (/^\d{8}$/.test(t)) {
+      return t;
+  }
+  
+  // 3. Si contiene una URL con el DNI en los parámetros o al final
+  const urlMatch = t.match(/(?:dni|id|code|data)[=\/](\d{8})/i);
+  if (urlMatch) {
+      return urlMatch[1];
+  }
+  
+  // 4. Extracción de seguridad: la primera secuencia de 8 dígitos
+  const anyDni = t.match(/\b\d{8}\b/);
+  if (anyDni) {
+      return anyDni[0];
+  }
+  
+  // 5. Fallback extremo: limpiar todo lo que no sea número y ver si quedan exactamente 8 dígitos
+  const cleanNums = t.replace(/\D/g, '');
+  if (cleanNums.length === 8) {
+      return cleanNums;
+  }
+  
   return '';
 }
 
@@ -222,24 +395,25 @@ const laser = document.getElementById('laser');
 const brackets = ['bracket-tl', 'bracket-tr', 'bracket-bl', 'bracket-br'].map(id => document.getElementById(id));
 
 function setStatus(text, type = 'info') {
+    if (!statusEl) return;
     statusEl.textContent = text;
     if (type === 'error') {
         statusPing.className = 'animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-red-400';
         statusDot.className = 'relative inline-flex rounded-full h-3 w-3 bg-red-500';
-        brackets.forEach(b => b.className = b.className.replace(/border-(white|\[#26263A\])/g, 'border-red-500'));
-        laser.style.display = 'none';
+        brackets.forEach(b => { if (b) b.className = b.className.replace(/border-(white|\[#26263A\])/g, 'border-red-500'); });
+        if (laser) laser.style.display = 'none';
     } else if (type === 'success') {
         statusPing.className = 'animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-[#26263A]';
         statusDot.className = 'relative inline-flex rounded-full h-3 w-3 bg-[#26263A]';
-        brackets.forEach(b => b.className = b.className.replace(/border-(white|red-500)/g, 'border-[#26263A]'));
-        laser.style.display = 'none';
+        brackets.forEach(b => { if (b) b.className = b.className.replace(/border-(white|red-500)/g, 'border-[#26263A]'); });
+        if (laser) laser.style.display = 'none';
     } else {
         statusPing.className = 'animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-emerald-400';
         statusDot.className = 'relative inline-flex rounded-full h-3 w-3 bg-emerald-500';
         brackets.forEach(b => {
-            b.className = b.className.replace(/border-(red-500|\[#26263A\])/g, 'border-white');
+            if (b) b.className = b.className.replace(/border-(red-500|\[#26263A\])/g, 'border-white');
         });
-        laser.style.display = 'block';
+        if (laser) laser.style.display = 'block';
     }
 }
 
@@ -251,14 +425,18 @@ function syncFormAction() {
 document.querySelectorAll('input[name="tipo_accion_qr"]').forEach(el => {
   el.addEventListener('change', syncFormAction);
 });
-syncFormAction();
-
-let isProcessing = false;
+if (formQr) syncFormAction();
 
 function initScanner() {
     if (html5QrCode) return;
     html5QrCode = new Html5Qrcode("reader");
-    isProcessing = false;
+    
+    // Si ya pasó el cooldown inicial, se inicia listo. Si no, se bloquea temporalmente.
+    if (isProcessing) {
+        setStatus('Inicializando cámara (cooldown activo)...', 'info');
+    } else {
+        setStatus('Iniciando cámara...', 'info');
+    }
     
     html5QrCode.start(
       { facingMode: "environment" },
@@ -276,44 +454,103 @@ function initScanner() {
         isProcessing = true;
         syncFormAction();
         setStatus('¡DNI ' + dni + ' detectado! Registrando...', 'success');
-        dniInput.value = dni;
+        if (dniInput) dniInput.value = dni;
         
         setTimeout(() => {
             html5QrCode.stop().then(() => formQr.submit()).catch(() => formQr.submit());
         }, 800);
       },
       () => {}
-    ).catch(err => { 
+    ).then(() => {
+        if (!isProcessing) {
+            setStatus('Cámara lista, esperando código...', 'info');
+        } else {
+            setStatus('Cámara lista, esperando (cooldown activo)...', 'info');
+        }
+    }).catch(err => { 
         setStatus('No se pudo acceder a la cámara.', 'error');
     });
 }
 
-// Soporte para escáner físico USB en cualquier parte de la pantalla
+function processLectorInput(value) {
+    if (isProcessing) return;
+    const dni = parsePayload(value);
+    const statusText = document.getElementById('lector_status');
+    const formLector = document.getElementById('formLector');
+    const lectorDni = document.getElementById('lector_dni');
+    const lectorInput = document.getElementById('lectorInput');
+    
+    if (dni.length !== 8) {
+        if (statusText) {
+            statusText.innerHTML = '<span class="text-red-500 font-semibold">❌ Código no reconocido: "' + escapeHTML(value) + '"</span>';
+        }
+        if (lectorInput) lectorInput.value = '';
+        setTimeout(focusLector, 2000);
+        return;
+    }
+    
+    isProcessing = true;
+    if (statusText) {
+        statusText.innerHTML = '<span class="text-pisco-accent font-semibold">⏳ DNI ' + dni + ' leído. Registrando...</span>';
+    }
+    
+    // Sincronizar acción de entrada/salida para el lector
+    const salida = document.querySelector('input[name="tipo_accion_lector"]:checked')?.value === 'salida';
+    if (formLector) {
+        formLector.action = salida ? urlSalida : urlEntrada;
+    }
+    if (lectorDni) lectorDni.value = dni;
+    
+    setTimeout(() => {
+        if (formLector) formLector.submit();
+    }, 400);
+}
+
+function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+}
+
+// Soporte global para escáner físico USB en cualquier parte de la pantalla (compatibilidad hacia atrás)
 let usbScannerBuffer = "";
 let usbScannerTimer = null;
 document.addEventListener('keydown', function(e) {
+    // Si estamos en la pestaña Lector y enfocados, no interferir con la entrada local
+    const modo = document.querySelector('input[name="modo_registro"]:checked')?.value;
+    if (modo === 'lector' && document.activeElement === document.getElementById('lectorInput')) {
+        return;
+    }
+    
     if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') return;
 
     if (e.key === 'Enter') {
-        if (usbScannerBuffer.startsWith('REGIS|')) {
+        if (/^REGIS/i.test(usbScannerBuffer)) {
             e.preventDefault();
             const dni = parsePayload(usbScannerBuffer);
             if (dni.length === 8) {
-                if (isProcessing) return; // Evitar múltiples escaneos
+                if (isProcessing) return;
                 isProcessing = true;
                 
-                syncFormAction();
-                setStatus('¡Código capturado por escáner físico! Registrando en 3 segundos...', 'success');
-                dniInput.value = dni;
-                
-                setTimeout(() => {
-                    // Detener la cámara web si estaba encendida
-                    if (html5QrCode && html5QrCode.isScanning) {
-                        html5QrCode.stop().then(() => formQr.submit()).catch(() => formQr.submit());
-                    } else {
-                        formQr.submit();
-                    }
-                }, 3000); // 3 segundos de delay preventivo
+                // Mapea al modo actual o por defecto a entrada
+                const formToSubmit = formQr || document.getElementById('formLector') || document.getElementById('formDniEntrada');
+                if (formToSubmit) {
+                    const isSalida = (modo === 'qr' && document.querySelector('input[name="tipo_accion_qr"]:checked')?.value === 'salida') || 
+                                     (modo === 'lector' && document.querySelector('input[name="tipo_accion_lector"]:checked')?.value === 'salida');
+                    
+                    formToSubmit.action = isSalida ? urlSalida : urlEntrada;
+                    
+                    const inputDni = document.getElementById('qr_dni') || document.getElementById('lector_dni') || document.querySelector('input[name="dni"]');
+                    if (inputDni) inputDni.value = dni;
+                    
+                    setTimeout(() => {
+                        if (html5QrCode && html5QrCode.isScanning) {
+                            html5QrCode.stop().then(() => formToSubmit.submit()).catch(() => formToSubmit.submit());
+                        } else {
+                            formToSubmit.submit();
+                        }
+                    }, 500);
+                }
             }
         }
         usbScannerBuffer = "";
@@ -324,9 +561,8 @@ document.addEventListener('keydown', function(e) {
     clearTimeout(usbScannerTimer);
     usbScannerTimer = setTimeout(() => {
         usbScannerBuffer = "";
-    }, 50); // Un escáner USB escribe extremadamente rápido, mucho menos de 50ms por tecla
+    }, 50);
 });
-
 </script>
 
 <?php

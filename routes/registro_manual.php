@@ -100,7 +100,7 @@ ob_start();
                 <?= csrf_field() ?>
                 <input type="hidden" name="practicante_id" id="fPractIdEntrada">
                 <input type="hidden" name="metodo" value="manual">
-                <textarea name="observacion" placeholder="Observación (opcional)" class="ui-field text-sm" rows="2"></textarea>
+                <textarea name="observacion" placeholder="Observación (opcional)" maxlength="250" class="ui-field text-sm" rows="2"></textarea>
                 <button type="submit" class="ui-btn-primary w-full justify-center">
                     🕐 Registrar Entrada
                 </button>
@@ -110,7 +110,7 @@ ob_start();
                 <?= csrf_field() ?>
                 <input type="hidden" name="practicante_id" id="fPractIdSalida">
                 <input type="hidden" name="metodo" value="manual">
-                <textarea name="observacion" placeholder="Observación (opcional)" class="ui-field text-sm" rows="2"></textarea>
+                <textarea name="observacion" placeholder="Observación (opcional)" maxlength="250" class="ui-field text-sm" rows="2"></textarea>
                 <button type="submit" class="ui-btn-primary w-full justify-center">
                     🕐 Registrar Salida
                 </button>

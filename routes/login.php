@@ -32,6 +32,21 @@ if (is_post()) {
 
     $u = trim((string) input('username', ''));
     $p = trim((string) input('password', ''));
+
+    // Validación de seguridad (longitud y caracteres válidos)
+    if (strlen($u) > 50) {
+        flash('err', 'El nombre de usuario excede el límite permitido (50 caracteres).');
+        redirect(app_url('index.php?r=login'));
+    }
+    if (strlen($p) > 100) {
+        flash('err', 'La contraseña excede el límite permitido (100 caracteres).');
+        redirect(app_url('index.php?r=login'));
+    }
+    if (preg_match('/[^a-zA-Z0-9_.\-@]/', $u)) {
+        flash('err', 'El nombre de usuario contiene caracteres no permitidos.');
+        redirect(app_url('index.php?r=login'));
+    }
+
     if (attempt_login(db(), $u, $p)) {
         // Login exitoso: limpiar intentos
         unset($_SESSION['login_attempts'], $_SESSION['login_lock_until']);
@@ -152,9 +167,12 @@ ob_start();
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </span>
-                        <input name="username" type="text" required autocomplete="username"
+                        <input name="username" id="loginUsername" type="text" required autocomplete="username" maxlength="50"
                                class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 dark:border-stone-700 bg-slate-50 dark:bg-stone-800 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-stone-500 focus:outline-none focus:border-[#26263A] focus:ring-2 focus:ring-[#26263A]/20 transition-all font-medium"
                                placeholder="Ingresa tu usuario o DNI">
+                    </div>
+                    <div id="usernameError" class="text-xs text-red-500 hidden mt-1.5 font-semibold flex items-center gap-1 animate-fade-in">
+                        <span>⚠️</span> Solo se permiten letras, números y los caracteres ( _ . - @ )
                     </div>
                 </div>
 
@@ -171,7 +189,7 @@ ob_start();
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2v2a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2h6zM7 11V7a5 5 0 0110 0v4"></path>
                             </svg>
                         </span>
-                        <input name="password" id="loginPassword" type="password" required autocomplete="current-password"
+                        <input name="password" id="loginPassword" type="password" required autocomplete="current-password" maxlength="100"
                                class="w-full pl-11 pr-11 py-3 rounded-xl border border-slate-200 dark:border-stone-700 bg-slate-50 dark:bg-stone-800 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-stone-500 focus:outline-none focus:border-[#26263A] focus:ring-2 focus:ring-[#26263A]/20 transition-all font-medium"
                                placeholder="••••••••">
                         <button type="button" id="togglePasswordBtn" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 dark:text-stone-500 hover:text-[#26263A] dark:hover:text-[#26263A] transition-colors" aria-label="Mostrar contraseña">
@@ -308,6 +326,28 @@ document.addEventListener('DOMContentLoaded', () => {
         themeBtn.addEventListener('click', () => {
             const isDark = rootHtml.classList.toggle('dark');
             document.cookie = 'theme=' + (isDark ? 'dark' : 'light') + ';path=/;max-age=31536000';
+        });
+    }
+
+    // 5. Control de caracteres y longitud en tiempo real para Usuario
+    const userInput = document.getElementById('loginUsername');
+    const userError = document.getElementById('usernameError');
+    if (userInput && userError) {
+        userInput.addEventListener('input', () => {
+            const originalVal = userInput.value;
+            // Permitir solo letras, números, guión bajo, punto, guión medio y arroba
+            const filteredVal = originalVal.replace(/[^a-zA-Z0-9_.\-@]/g, '');
+            
+            if (originalVal !== filteredVal) {
+                userInput.value = filteredVal;
+                userError.classList.remove('hidden');
+                
+                // Ocultar la advertencia tras 3 segundos de inactividad
+                if (userInput.errorTimeout) clearTimeout(userInput.errorTimeout);
+                userInput.errorTimeout = setTimeout(() => {
+                    userError.classList.add('hidden');
+                }, 3000);
+            }
         });
     }
 });

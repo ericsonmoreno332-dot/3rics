@@ -157,7 +157,17 @@ function registrar_entrada(PDO $pdo, int $practicanteId, string $metodo, ?string
         $pdo->prepare("INSERT INTO asistencias ($cols $extraCols) VALUES ($vals)")->execute($params);
     }
 
-    return ['ok' => true, 'msg' => $estadoEnum === 'tardanza' ? 'Entrada registrada (tardanza)' : 'Entrada registrada'];
+    $msg = $estadoEnum === 'tardanza' ? 'Entrada registrada (tardanza)' : 'Entrada registrada';
+
+    $stPending = $pdo->prepare('SELECT fecha FROM asistencias WHERE practicante_id = ? AND hora_salida IS NULL AND fecha < CURDATE() ORDER BY fecha DESC LIMIT 1');
+    $stPending->execute([$practicanteId]);
+    $pendingExitDate = $stPending->fetchColumn();
+
+    if ($pendingExitDate) {
+        $msg .= '. Tienes una salida pendiente del día ' . date('d/m/Y', strtotime($pendingExitDate)) . '.';
+    }
+
+    return ['ok' => true, 'msg' => $msg];
 }
 
 /**

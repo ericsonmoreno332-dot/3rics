@@ -9,7 +9,7 @@ if (!is_post()) {
 verify_csrf();
 
 $pdo = db();
-$obs = trim((string) ($_POST['observacion'] ?? ''));
+$obs = mb_substr(trim((string) ($_POST['observacion'] ?? '')), 0, 250);
 $obsOut = $obs !== '' ? $obs : null;
 
 $metodo = (string) ($_POST['metodo'] ?? 'manual');
@@ -25,6 +25,12 @@ if (isset($_POST['usar_geo']) && $lat !== null && $lng !== null) {
 
 $isQr = ($_POST['metodo'] ?? '') === 'qr';
 $redirectUrl = $isQr ? app_url('index.php?r=escaner') : app_url('index.php?r=inicio');
+if (isset($_POST['redirect_to'])) {
+    $targetRedirect = (string) $_POST['redirect_to'];
+    if (strpos($targetRedirect, app_url('')) === 0 || strpos($targetRedirect, '/') === 0) {
+        $redirectUrl = $targetRedirect;
+    }
+}
 
 $pid = (int) ($_POST['practicante_id'] ?? 0);
 if ($pid <= 0) {

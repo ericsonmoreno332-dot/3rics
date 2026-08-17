@@ -157,11 +157,13 @@ ob_start();
                            class="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-[#26263A] dark:text-[#DCDCEC] bg-[#26263A]/10 hover:bg-[#26263A]/20 transition-all duration-200">
                             ✏️ Editar
                         </a>
+                        <?php if (is_admin($user)): ?>
                         <button type="button"
                                 class="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-red-500 bg-red-500/10 hover:bg-red-500/20 transition-all duration-200 border-none cursor-pointer"
                                 onclick="confirmarEliminarListado(event, '<?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?>', '<?= e(app_url('index.php?r=practicante_delete&id=' . (int) $row['id'] . '&_csrf=' . urlencode(csrf_token()))) ?>')">
                             🗑️ Eliminar
                         </button>
+                        <?php endif; ?>
                     </div>
                 </td>
             </tr>
@@ -241,11 +243,13 @@ ob_start();
             <button type="button" class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-[#26263A]/10 hover:bg-[#26263A]/20 text-[#26263A] dark:text-[#DCDCEC] transition-all border-none cursor-pointer" onclick="mostrarQR('<?= e(app_url('index.php?r=qr_png&id=' . (int) $row['id'])) ?>', '<?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?>')" title="Ver QR">
                 📱
             </button>
+            <?php if (is_admin($user)): ?>
             <button type="button"
                     class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-500 transition-all border-none cursor-pointer"
                     onclick="confirmarEliminarListado(event, '<?= e(nombre_completo($row['nombres'], $row['apellidos'])) ?>', '<?= e(app_url('index.php?r=practicante_delete&id=' . (int) $row['id'] . '&_csrf=' . urlencode(csrf_token()))) ?>')">
                 🗑️
             </button>
+            <?php endif; ?>
         </div>
     </div>
     <?php endforeach; ?>

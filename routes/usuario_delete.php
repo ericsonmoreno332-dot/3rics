@@ -15,6 +15,23 @@ if ($id <= 0 || $id === (int) $user['id']) {
 }
 
 $pdo = db();
-$pdo->prepare("DELETE FROM usuarios WHERE id = ? AND rol IN ('admin','supervisor')")->execute([$id]);
-flash('ok', 'Usuario eliminado');
+$pdo->beginTransaction();
+try {
+    $st = $pdo->prepare('SELECT practicante_id FROM usuarios WHERE id = ?');
+    $st->execute([$id]);
+    $pid = $st->fetchColumn();
+
+    $pdo->prepare("DELETE FROM usuarios WHERE id = ?")->execute([$id]);
+    
+    if ($pid) {
+        $pdo->prepare('DELETE FROM practicantes WHERE id = ?')->execute([$pid]);
+    }
+    
+    $pdo->commit();
+    flash('ok', 'Usuario y sus datos asociados eliminados');
+} catch (Exception $e) {
+    $pdo->rollBack();
+    flash('err', 'Error al eliminar: ' . $e->getMessage());
+}
+
 redirect(app_url('index.php?r=usuarios'));

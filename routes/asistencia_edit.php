@@ -19,7 +19,7 @@ if (is_post()) {
     $hora_entrada = (string) ($_POST['hora_entrada'] ?? '');
     $hora_salida = (string) ($_POST['hora_salida'] ?? '');
     $estado = (string) ($_POST['estado'] ?? 'presente');
-    $obs = trim((string) ($_POST['observacion'] ?? ''));
+    $obs = mb_substr(trim((string) ($_POST['observacion'] ?? '')), 0, 250);
 
     if (!in_array($estado, ['presente', 'tardanza', 'falta'], true)) {
         $estado = 'presente';
@@ -141,7 +141,7 @@ ob_start();
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-slate-700 dark:text-stone-300 mb-1.5">Observación (opcional)</label>
-                    <textarea name="observacion" rows="2" placeholder="Notas sobre la edición..." 
+                    <textarea name="observacion" rows="2" placeholder="Notas sobre la edición..." maxlength="250" 
                               class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-stone-600 bg-white dark:bg-stone-900 text-slate-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-[#26263A]/30 focus:border-[#26263A] transition-all resize-none"><?= e($A['observacion'] ?? '') ?></textarea>
                 </div>
             </div>

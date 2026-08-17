@@ -555,6 +555,7 @@ $dark = $_COOKIE['theme'] ?? 'light';
                     'asistencia'  => '📅 Asistencia',
                     'practicantes'=> '👤 Practicantes',
                     'escaner'     => '📷 Escaner QR',
+                    'lector'      => '🔌 Lector QR Físico',
                     'reportes'    => '📄 Reportes',
                 ] as $k => $lab) {
                     echo '<a class="ui-mobile-nav-link" href="' . e(app_url('index.php?r=' . $k)) . '">' . e($lab) . '</a>';

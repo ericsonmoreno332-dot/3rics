@@ -271,11 +271,11 @@ ob_start();
             </div>
             <div>
                 <label class="ui-label flex items-center gap-2"><span>🪪</span> DNI</label>
-                <input name="dni_admin" id="inputDniAdmin" value="<?= e($has_old ? (old('dni_admin') ?? '') : (($row && $row['rol'] !== 'practicante') ? ($row['dni'] ?? '') : '')) ?>" class="ui-field shadow-sm" placeholder="Ej. 12345678" maxlength="8">
+                <input name="dni_admin" id="inputDniAdmin" value="<?= e($has_old ? (old('dni_admin') ?? '') : (($row && $row['rol'] !== 'practicante') ? ($row['dni'] ?? '') : '')) ?>" class="ui-field shadow-sm" placeholder="Ej. 12345678" maxlength="8" pattern="\d{8}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             </div>
             <div>
                 <label class="ui-label flex items-center gap-2"><span>📱</span> Celular</label>
-                <input name="celular_admin" id="inputCelularAdmin" value="<?= e($has_old ? (old('celular_admin') ?? '') : (($row && $row['rol'] !== 'practicante') ? ($row['celular'] ?? '') : '')) ?>" class="ui-field shadow-sm" placeholder="Ej. 987654321">
+                <input name="celular_admin" id="inputCelularAdmin" value="<?= e($has_old ? (old('celular_admin') ?? '') : (($row && $row['rol'] !== 'practicante') ? ($row['celular'] ?? '') : '')) ?>" class="ui-field shadow-sm" placeholder="Ej. 987654321" maxlength="9" pattern="\d{9}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             </div>
             <div>
                 <label class="ui-label flex items-center gap-2"><span>🔑</span> Usuario</label>
